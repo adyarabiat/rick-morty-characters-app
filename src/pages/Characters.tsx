@@ -20,7 +20,7 @@ import CircularIndeterminate from '../components/Loading';
 
 const GridContainer = styled(Grid)(() => ({
     padding: 10,
-    maxWidth: '1100px',
+    maxWidth: '1200px',
 }));
 
 export default function Characters() {
@@ -54,7 +54,7 @@ export default function Characters() {
     if (characters?.errorState) return <Error />;
     return (
         <Box display="flex" justifyContent="center" alignItems="center">
-            <GridContainer container spacing={4}>
+            <GridContainer container spacing={2}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Search />
                 </Grid>

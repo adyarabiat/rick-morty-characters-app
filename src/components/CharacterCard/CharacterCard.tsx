@@ -27,6 +27,7 @@ import {
 } from './styles';
 import { MainStateType } from '../../redux';
 import { common } from '@mui/material/colors';
+import theme from '../../theme';
 
 export default function CharacterCard() {
     const history = useHistory();
@@ -108,14 +109,12 @@ export default function CharacterCard() {
                             color: common.white,
                         }}
                         avatar={
-                            <Avatar aria-label="profile">
+                            <Avatar
+                                sx={{ bgcolor: theme.palette.primary.main }}
+                                aria-label="profile"
+                            >
                                 {name?.split('')[0]?.toUpperCase()}
                             </Avatar>
-                        }
-                        action={
-                            <div style={{ position: 'relative' }}>
-                                <Badge backgroundColor={status}>{status}</Badge>
-                            </div>
                         }
                         title={
                             <Typography
@@ -133,6 +132,12 @@ export default function CharacterCard() {
                             </Typography>
                         }
                     />
+                    <Badge backgroundColor={status}>
+                        <Typography style={{ fontWeight: 'bold' }}>
+                            {status}
+                        </Typography>
+                    </Badge>
+
                     <CardMedia
                         component="img"
                         height="400"

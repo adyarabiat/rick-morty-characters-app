@@ -43,21 +43,15 @@ export const Badge = styled('div')<BackgroundColorProp>(
         } else {
             bg = theme.palette.grey[700];
         }
-        if (backgroundColor === 'dead') bg = theme.palette.error.dark;
-        if (backgroundColor === 'dead') bg = theme.palette.error.dark;
         return {
             background: bg,
             color: theme.palette.common.white,
-            height: 20,
+            height: 35,
             display: 'flex',
-            justifyContent: 'flex-end',
+            textAlign: 'center',
+            justifyContent: 'center',
             alignItems: 'center',
-            padding: 15,
             fontSize: 17,
-            position: 'absolute',
-            top: 10,
-            right: 20,
-            borderRadius: 30,
             fontWeight: 'bold',
         };
     }
