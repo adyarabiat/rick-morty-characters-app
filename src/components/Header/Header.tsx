@@ -1,14 +1,10 @@
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Logo from '../../assets/logo.png';
 import { pageChangeAction, searchNameAction } from '../../redux/Actions';
-
-const LogoImg = styled('img')(() => ({
-    width: 200,
-}));
+import { LogoImg } from './styles';
 
 export default function Header() {
     const dispatch = useDispatch();
@@ -21,12 +17,14 @@ export default function Header() {
     };
     return (
         <Box
-            height="200px"
+            height="150px"
             display="flex"
             alignItems="center"
             justifyContent="center"
+            marginBottom={5}
+            marginTop={5}
         >
-            <IconButton size="large" onClick={onClickCharacter}>
+            <IconButton size="medium" onClick={onClickCharacter}>
                 <LogoImg src={Logo} alt="logo" />
             </IconButton>
         </Box>

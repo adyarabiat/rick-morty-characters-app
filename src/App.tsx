@@ -1,8 +1,7 @@
 import './App.css';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Characters from './pages/Characters';
 import Character from './pages/Character';
-import NotFound from './pages/NotFound';
 import Header from './components/Header/Header';
 
 function App() {
@@ -10,9 +9,9 @@ function App() {
         <div className="App">
             <Header />
             <Switch>
-                <Route path="/" exact component={Characters} />
-                <Route path="/:id" exact component={Character} />
-                <Route path="*" component={NotFound} />
+                <Route path="/welcome" exact component={Characters} />
+                <Route path="/character/:id" exact component={Character} />
+                <Redirect path="/*" to="/welcome" />
             </Switch>
         </div>
     );

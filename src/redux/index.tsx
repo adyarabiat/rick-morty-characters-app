@@ -37,7 +37,13 @@ export type characterType = {
 export type MainStateType = {
     characters: {
         loadingState: boolean;
-        characters: [];
+        characters: {
+            id: string;
+            status: string;
+            image: string;
+            name: string;
+            species: string;
+        }[];
         character: {
             image: string;
             name: string;

@@ -5,13 +5,9 @@
 }
 html,
 body {
-    background: rgb(33, 33, 33);
-    height: 100vh;
-    color: #fff;
-}
-button {
-    color: #fff;
+    background: #ffff;
+    /* height: 100vh; */
 }
 .App {
-    border-top: #f44336 1px solid;
+    border-top: #12243c 10px solid;
 }

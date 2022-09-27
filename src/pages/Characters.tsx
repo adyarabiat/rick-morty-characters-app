@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
@@ -9,14 +9,14 @@ import {
     getPageInfoAction,
     loadingAction,
 } from '../redux/Actions';
-import CharcterCard from '../components/Cards';
+import CharactersCard from '../components/CharactersCard';
 import Search from '../components/Search';
-import Spinner from '../components/Spinner';
 import Error from '../components/Error/Error';
 import Pagination from '../components/Pagination';
 import useCharacters from '../graphql/hooks/userCharacters';
 import NoCharacterFound from '../components/NoCharacterFound';
 import { MainStateType, PaginationInfoType } from '../redux';
+import CircularIndeterminate from '../components/Loading';
 
 const GridContainer = styled(Grid)(() => ({
     padding: 10,
@@ -28,6 +28,7 @@ export default function Characters() {
     const characters = useSelector<MainStateType, MainStateType['characters']>(
         ({ characters }) => characters
     );
+
     const paginationInfo = useSelector<
         PaginationInfoType,
         PaginationInfoType['paginationInfo']
@@ -46,49 +47,27 @@ export default function Characters() {
     }, [data, dispatch]);
 
     useEffect(() => {
-        dispatch(loadingAction(loading));
-    }, [loading, dispatch]);
-
-    useEffect(() => {
         dispatch(errorAction(error));
-    }, [error, dispatch]);
+        dispatch(loadingAction(loading));
+    }, [loading, error, dispatch]);
 
     if (characters?.errorState) return <Error />;
     return (
-        <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            padding="0 20px"
-        >
-            <GridContainer
-                container
-                rowSpacing={1}
-                columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            >
+        <Box display="flex" justifyContent="center" alignItems="center">
+            <GridContainer container spacing={4}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <Search />
                 </Grid>
-                {characters?.loadingState ? (
-                    <Box
-                        width="100%"
-                        display="flex"
-                        justifyContent="center"
-                        alignItems="center"
-                        padding="0 20px"
-                    >
-                        <Spinner />
-                    </Box>
+                {!characters?.loadingState &&
+                characters?.characters?.length === 0 ? (
+                    <NoCharacterFound />
                 ) : (
                     <>
-                        {!characters?.loadingState &&
-                        characters?.characters?.length === 0 ? (
-                            <NoCharacterFound />
+                        {characters?.loadingState ? (
+                            <CircularIndeterminate />
                         ) : (
                             <>
-                                <CharcterCard
-                                    characters={characters?.characters}
-                                />
+                                <CharactersCard />
                                 <Grid item xs={12} sm={12} md={12} lg={12}>
                                     <Pagination />
                                 </Grid>
