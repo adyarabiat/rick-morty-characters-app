@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client';
 import { Provider } from 'react-redux';
-import store from './redux';
+import { store } from './redux';
 import theme from './theme';
 import { ThemeProvider } from '@mui/material/styles';
 export const client = new ApolloClient({

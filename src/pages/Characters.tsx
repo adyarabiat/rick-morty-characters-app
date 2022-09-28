@@ -15,7 +15,7 @@ import Error from '../components/Error/Error';
 import Pagination from '../components/Pagination';
 import useCharacters from '../graphql/hooks/userCharacters';
 import NoCharacterFound from '../components/NoCharacterFound';
-import { MainStateType, PaginationInfoType } from '../redux';
+import { MainStateType } from '../redux';
 import CircularIndeterminate from '../components/Loading';
 
 const GridContainer = styled(Grid)(() => ({
@@ -29,12 +29,12 @@ export default function Characters() {
         ({ characters }) => characters
     );
 
-    const paginationInfo = useSelector<
-        PaginationInfoType,
-        PaginationInfoType['paginationInfo']
-    >(({ paginationInfo }) => paginationInfo);
+    const pageInfo = useSelector<
+        MainStateType,
+        MainStateType['characters']['pageInfo']
+    >(({ characters }) => characters.pageInfo);
 
-    const { loading, error, data } = useCharacters(paginationInfo?.page);
+    const { loading, error, data } = useCharacters(pageInfo?.page);
 
     useEffect(() => {
         if (data) {
@@ -47,8 +47,9 @@ export default function Characters() {
     }, [data, dispatch]);
 
     useEffect(() => {
-        dispatch(errorAction(error));
         dispatch(loadingAction(loading));
+        if (error) dispatch(errorAction(true));
+        if (!error) dispatch(errorAction(false));
     }, [loading, error, dispatch]);
 
     if (characters?.errorState) return <Error />;

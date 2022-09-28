@@ -1,52 +1,80 @@
-import {
-    LOADING,
-    ERROR,
-    GET_CHARACTERS,
-    GET_CHARACTER,
-    SEARCH_NAME,
-    PAGE_CHANGE,
-    PAGES_INFO,
-} from './ActionTypes';
+import { ACTION_TYPES } from './ActionTypes';
 
-export const loadingAction = (loading: Boolean) => {
+export const loadingAction = (loading: boolean) => {
     return {
-        type: LOADING,
+        type: ACTION_TYPES.LOADING,
         payload: loading,
     };
 };
-export const errorAction = (error: any) => {
+
+export const errorAction = (error: boolean) => {
     return {
-        type: ERROR,
+        type: ACTION_TYPES.ERROR,
         payload: error,
     };
 };
-export const getCharactersAction = (data: Object) => {
+
+type Characters = {
+    id: string;
+    status: string;
+    image: string;
+    name: string;
+    species: string;
+}[];
+export const getCharactersAction = (data: Characters) => {
     return {
-        type: GET_CHARACTERS,
+        type: ACTION_TYPES.GET_CHARACTERS,
         payload: data,
     };
 };
-export const getCharacterAction = (data: Object) => {
+
+type Character = {
+    image: string;
+    name: string;
+    gender: string;
+    created: string;
+    species: string;
+    location: {
+        name: string;
+    };
+    status: string;
+    type: string;
+    origin: {
+        name: string;
+    };
+    episode: {
+        episode: string;
+        name: string;
+    }[];
+};
+export const getCharacterAction = (data: Character) => {
     return {
-        type: GET_CHARACTER,
+        type: ACTION_TYPES.GET_CHARACTER,
         payload: data,
     };
 };
-export const searchNameAction = (text: String) => {
+
+export const searchNameAction = (text: string) => {
     return {
-        type: SEARCH_NAME,
+        type: ACTION_TYPES.SEARCH_NAME,
         payload: text,
     };
 };
-export const pageChangeAction = (page: Number) => {
+export const pageChangeAction = (page: number) => {
     return {
-        type: PAGE_CHANGE,
+        type: ACTION_TYPES.PAGE_CHANGE,
         payload: page,
     };
 };
-export const getPageInfoAction = (info: Object) => {
+
+type PaginationInfo = {
+    page: number;
+    pages: number;
+    count: number;
+};
+export const getPageInfoAction = (info: PaginationInfo) => {
     return {
-        type: PAGES_INFO,
+        type: ACTION_TYPES.PAGES_INFO,
         payload: info,
     };
 };

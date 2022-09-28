@@ -40,6 +40,14 @@ export default function Search() {
                 if (data) {
                     let results = data?.characters?.results;
                     let info = data?.characters?.info;
+
+                    // type charactersType = {
+                    //     id: string;
+                    //     status: string;
+                    //     image: string;
+                    //     name: string;
+                    //     species: string;
+                    // };
                     dispatch(getCharactersAction(results));
                     dispatch(getPageInfoAction(info));
                 }
@@ -53,7 +61,8 @@ export default function Search() {
 
     useEffect(() => {
         dispatch(loadingAction(loading));
-        dispatch(errorAction(error));
+        if (error) dispatch(errorAction(true));
+        if (!error) dispatch(errorAction(false));
     }, [loading, error, dispatch]);
 
     return (

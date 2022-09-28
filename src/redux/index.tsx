@@ -7,36 +7,16 @@ declare global {
 }
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export type PaginationInfoType = {
-    paginationInfo: {
-        page: number;
-        pages: number;
-        count: number;
-    };
-};
-export type characterType = {
-    image: string;
-    name: string;
-    gender: string;
-    created: string;
-    species: string;
-    location: {
-        name: string;
-    };
-    status: string;
-    type: string;
-    origin: {
-        name: string;
-    };
-    episode: {
-        episode: string;
-        name: string;
-    }[];
-};
+export const store = createStore(MainReducer, composeEnhancers());
 
 export type MainStateType = {
     characters: {
         loadingState: boolean;
+        pageInfo: {
+            page: number;
+            pages: number;
+            count: number;
+        };
         characters: {
             id: string;
             status: string;
@@ -68,7 +48,3 @@ export type MainStateType = {
         errorState: boolean;
     };
 };
-
-const store = createStore(MainReducer, composeEnhancers());
-
-export default store;

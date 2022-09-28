@@ -1,73 +1,159 @@
-import {
-    SEARCH_NAME,
-    LOADING,
-    PAGE_CHANGE,
-    PAGES_INFO,
-    GET_CHARACTERS,
-    GET_CHARACTER,
-    ERROR,
-} from '../ActionTypes';
+import { ACTION_TYPES } from '../ActionTypes';
+
+type ActionsType =
+    | {
+          type:
+              | ACTION_TYPES.SEARCH_NAME
+              | ACTION_TYPES.ERROR
+              | ACTION_TYPES.LOADING;
+          payload: boolean;
+      }
+    | {
+          type: ACTION_TYPES.PAGES_INFO | ACTION_TYPES.PAGE_CHANGE;
+          payload: {
+              page: number;
+              pages: number;
+              count: number;
+          };
+      }
+    | {
+          type: ACTION_TYPES.GET_CHARACTER;
+          payload: {
+              id: string;
+              image: string;
+              name: string;
+              gender: string;
+              created: string;
+              species: string;
+              status: string;
+              type: string;
+              episode: {
+                  episode: string;
+                  name: string;
+              }[];
+              location: {
+                  name: string;
+              };
+              origin: {
+                  name: string;
+              };
+          };
+      }
+    | {
+          type: ACTION_TYPES.GET_CHARACTERS;
+          payload: {
+              id: string;
+              status: string;
+              image: string;
+              name: string;
+              species: string;
+          }[];
+      }
+    | {
+          type: ACTION_TYPES.SEARCH_NAME;
+          payload: string;
+      };
 
 const INITIAL_STATE = {
-    loadingState: false,
-    paginationInfo: { page: 1, pages: '', count: '' },
     characters: [],
     character: {},
+    pageInfo: {
+        page: 1,
+        pages: 0,
+        count: 0,
+    },
+    loadingState: false,
+    errorState: false,
     searchName: '',
     initalRender: false,
-    errorState: false,
 };
-const charactersReducer = (state = INITIAL_STATE, action: any) => {
+const charactersReducer = (state = INITIAL_STATE, action: ActionsType) => {
     switch (action.type) {
-        case LOADING: {
+        case ACTION_TYPES.LOADING: {
             return {
                 ...state,
-                paginationInfo: { ...state.paginationInfo },
                 loadingState: action.payload,
             };
         }
-        case ERROR: {
+        case ACTION_TYPES.ERROR: {
             return {
                 ...state,
-                paginationInfo: { ...state.paginationInfo },
                 errorState: action.payload,
             };
         }
-        case GET_CHARACTERS: {
+        case ACTION_TYPES.GET_CHARACTERS: {
             return {
                 ...state,
-                paginationInfo: { ...state.paginationInfo },
-                characters: [...action.payload],
+                characters: action.payload.map(
+                    ({ id, status, image, name, species }) => ({
+                        id,
+                        status,
+                        image,
+                        name,
+                        species,
+                    })
+                ),
             };
         }
-        case GET_CHARACTER: {
+        case ACTION_TYPES.GET_CHARACTER: {
+            const {
+                id,
+                image,
+                name,
+                gender,
+                created,
+                species,
+                status,
+                type,
+                episode,
+                location,
+                origin,
+            } = action.payload;
+            let episodes = episode?.map(({ name, episode }) => ({
+                name,
+                episode,
+            }));
             return {
                 ...state,
-                paginationInfo: { ...state.paginationInfo },
-                character: { ...action.payload },
+                character: {
+                    id,
+                    image,
+                    name,
+                    gender,
+                    created,
+                    species,
+                    status,
+                    type,
+                    episode: episodes,
+                    location: {
+                        name: location?.name,
+                    },
+                    origin: {
+                        name: origin?.name,
+                    },
+                },
             };
         }
-        case SEARCH_NAME: {
+        case ACTION_TYPES.SEARCH_NAME: {
             return {
                 ...state,
-                paginationInfo: { ...state.paginationInfo },
                 searchName: action.payload,
             };
         }
-        case PAGE_CHANGE: {
+        case ACTION_TYPES.PAGE_CHANGE: {
             return {
                 ...state,
-                paginationInfo: {
-                    ...state.paginationInfo,
+                pageInfo: {
+                    ...state.pageInfo,
                     page: action.payload,
                 },
             };
         }
-        case PAGES_INFO: {
+        case ACTION_TYPES.PAGES_INFO: {
             return {
                 ...state,
-                paginationInfo: {
-                    ...state.paginationInfo,
+                pageInfo: {
+                    ...state.pageInfo,
                     pages: action.payload.pages,
                     count: action.payload.count,
                 },
