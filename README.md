@@ -2,6 +2,10 @@
 
 ![plot](/src/assets/logo.png)
 
+URL
+
+[a link](https://rick-morty-characters-app-hb47.vercel.app/)
+
 To start you need first run
 
 ### `yarn install`
