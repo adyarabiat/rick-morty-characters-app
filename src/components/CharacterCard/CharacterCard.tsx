@@ -87,30 +87,47 @@ export default function CharacterCard() {
     return (
         <>
             <Box
-                maxWidth={500}
-                margin="auto"
                 display="flex"
+                flexDirection="column"
                 justifyContent="center"
-                marginTop={3}
-                marginBottom={3}
+                alignItems="center"
+                width="100%"
+                marginTop={10}
             >
-                <BackBtn
-                    startIcon={<ArrowBackIcon />}
-                    variant="contained"
-                    onClick={() => history.goBack()}
+                <Box
+                    margin="auto"
+                    display="flex"
+                    justifyContent="center"
+                    marginTop={3}
+                    marginBottom={3}
                 >
-                    Back
-                </BackBtn>
-            </Box>
-            <Box display="flex" justifyContent="center">
+                    <BackBtn
+                        startIcon={<ArrowBackIcon />}
+                        variant="contained"
+                        onClick={() => history.goBack()}
+                    >
+                        Back
+                    </BackBtn>
+                </Box>
                 <CardContainer>
+                    <Badge backgroundColor={status}>
+                        <Typography style={{ fontWeight: 'bold' }}>
+                            {status}
+                        </Typography>
+                    </Badge>
                     <CardHeader
                         style={{
                             color: common.white,
+                            borderBottom: '1px solid #010',
                         }}
                         avatar={
                             <Avatar
-                                sx={{ bgcolor: theme.palette.primary.main }}
+                                src={image}
+                                sx={{
+                                    bgcolor: theme.palette.primary.main,
+                                    width: 150,
+                                    height: 150,
+                                }}
                                 aria-label="profile"
                             >
                                 {name?.split('')[0]?.toUpperCase()}
@@ -118,7 +135,7 @@ export default function CharacterCard() {
                         }
                         title={
                             <Typography
-                                variant="h5"
+                                variant="h4"
                                 style={{
                                     color: common.white,
                                 }}
@@ -127,23 +144,12 @@ export default function CharacterCard() {
                             </Typography>
                         }
                         subheader={
-                            <Typography color="gray">
+                            <Typography>
                                 {created?.split('T')[0] || '-'}
                             </Typography>
                         }
                     />
-                    <Badge backgroundColor={status}>
-                        <Typography style={{ fontWeight: 'bold' }}>
-                            {status}
-                        </Typography>
-                    </Badge>
 
-                    <CardMedia
-                        component="img"
-                        height="400"
-                        image={image}
-                        alt="character-image"
-                    />
                     <CardContent>
                         <Grid container spacing={2} overflow="hidden">
                             {charData?.map((el) => {
@@ -161,7 +167,7 @@ export default function CharacterCard() {
                                             <Box>
                                                 <Typography
                                                     variant="body2"
-                                                    color="gray"
+                                                    // color="gray"
                                                 >
                                                     {el.label}
                                                 </Typography>
@@ -182,7 +188,7 @@ export default function CharacterCard() {
                             })}
                         </Grid>
                     </CardContent>
-                    <CardActionsContainer
+                    {/* <CardActionsContainer
                         disableSpacing
                         onClick={handleExpandClick}
                     >
@@ -222,7 +228,7 @@ export default function CharacterCard() {
                                 );
                             })}
                         </CardContent>
-                    </Collapse>
+                    </Collapse> */}
                 </CardContainer>
             </Box>
         </>

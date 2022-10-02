@@ -3,10 +3,11 @@ import { styled } from '@mui/material/styles';
 
 import { Button } from '@mui/material';
 
-export const Text = styled(Typography)(() => ({
+export const Text = styled(Typography)(({ theme }) => ({
     width: '100%',
     textAlign: 'center',
-    marginTop: 25,
+    fontWeight: 'bold',
+    color: theme.palette.grey['500'],
 }));
 export const BackBtn = styled(Button)(({ theme }) => ({
     marginTop: 3,

@@ -11,7 +11,22 @@ export const store = createStore(MainReducer, composeEnhancers());
 
 export type MainStateType = {
     characters: {
+        getBy: string;
         loadingState: boolean;
+        dialogOpen: boolean;
+        filtered: boolean;
+        status: string;
+        species: string;
+        gender: string;
+        episodesCount: number;
+        listOfEpisodes: {
+            id: string;
+            name: string;
+        }[];
+        choosenEpisode: {
+            name: string;
+            id: string;
+        };
         pageInfo: {
             page: number;
             pages: number;
@@ -44,7 +59,10 @@ export type MainStateType = {
             }[];
         };
         searchName: string;
-        initalRender: boolean;
-        errorState: boolean;
+        initialRender: boolean;
+        errorState: {
+            error: boolean;
+            message: any;
+        };
     };
 };

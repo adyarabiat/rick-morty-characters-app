@@ -1,11 +1,9 @@
 import { useQuery } from '@apollo/client';
-import { LOAD_CHARACTER } from '../Queries';
+import { LOAD_CHARACTER } from '../graphql/Queries';
 
-const useCharacter = (id: string) => {
+const useEpisodesCounts = () => {
     const { data, error, loading } = useQuery(LOAD_CHARACTER, {
-        variables: {
-            id,
-        },
+        errorPolicy: 'all',
     });
     return {
         data,
@@ -14,4 +12,4 @@ const useCharacter = (id: string) => {
     };
 };
 
-export default useCharacter;
+export default useEpisodesCounts;

@@ -12,6 +12,15 @@ const theme = createTheme({
             light: '#094089',
         },
     },
+    typography: {
+        fontFamily: [
+            'Helvetica Neue',
+            'Nunito',
+            'Roboto',
+            'Arial',
+            'sans-serif',
+        ].join(','),
+    },
 });
 
 export default theme;

@@ -4,9 +4,21 @@ type ActionsType =
     | {
           type:
               | ACTION_TYPES.SEARCH_NAME
-              | ACTION_TYPES.ERROR
-              | ACTION_TYPES.LOADING;
+              | ACTION_TYPES.LOADING
+              | ACTION_TYPES.DIALOG_OPEN
+              | ACTION_TYPES.FILTERED
+              | ACTION_TYPES.INITIAL_RENDER;
           payload: boolean;
+      }
+    | {
+          type:
+              | ACTION_TYPES.SEARCH_NAME
+              | ACTION_TYPES.STATUS
+              | ACTION_TYPES.SPECIES
+              | ACTION_TYPES.GENDER
+              | ACTION_TYPES.GET_BY;
+
+          payload: string;
       }
     | {
           type: ACTION_TYPES.PAGES_INFO | ACTION_TYPES.PAGE_CHANGE;
@@ -14,6 +26,13 @@ type ActionsType =
               page: number;
               pages: number;
               count: number;
+          };
+      }
+    | {
+          type: ACTION_TYPES.ERROR;
+          payload: {
+              error: boolean;
+              message: any;
           };
       }
     | {
@@ -50,41 +69,136 @@ type ActionsType =
           }[];
       }
     | {
-          type: ACTION_TYPES.SEARCH_NAME;
-          payload: string;
+          type: ACTION_TYPES.LIST_OF_EPISODES;
+          payload: {
+              id: string;
+              name: string;
+          }[];
+      }
+    | {
+          type: ACTION_TYPES.CHOOSEN_EPISODE;
+          payload: {
+              name: string;
+              id: string;
+          };
+      }
+    | {
+          type: ACTION_TYPES.EPISODES_COUNT;
+          payload: number;
       };
 
 const INITIAL_STATE = {
+    getBy: 'characters',
     characters: [],
     character: {},
+    episodesCount: 0,
+    listOfEpisodes: [],
+    choosenEpisode: {
+        name: '',
+        id: '',
+    },
     pageInfo: {
         page: 1,
         pages: 0,
         count: 0,
     },
     loadingState: false,
-    errorState: false,
+    errorState: {
+        error: false,
+        message: '',
+    },
     searchName: '',
-    initalRender: false,
+    initialRender: false,
+    dialogOpen: false,
+    filtered: false,
+    status: '',
+    species: '',
+    gender: '',
 };
 const charactersReducer = (state = INITIAL_STATE, action: ActionsType) => {
     switch (action.type) {
+        case ACTION_TYPES.EPISODES_COUNT: {
+            return {
+                ...state,
+                episodesCount: action?.payload,
+            };
+        }
+        case ACTION_TYPES.LIST_OF_EPISODES: {
+            return {
+                ...state,
+                listOfEpisodes: action?.payload?.map(({ id, name }) => ({
+                    id,
+                    name,
+                })),
+            };
+        }
+        case ACTION_TYPES.GET_BY: {
+            return {
+                ...state,
+                getBy: action?.payload,
+            };
+        }
+        case ACTION_TYPES.CHOOSEN_EPISODE: {
+            return {
+                ...state,
+                choosenEpisode: action?.payload,
+            };
+        }
+        case ACTION_TYPES.INITIAL_RENDER: {
+            return {
+                ...state,
+                initialRender: action?.payload,
+            };
+        }
         case ACTION_TYPES.LOADING: {
             return {
                 ...state,
-                loadingState: action.payload,
+                loadingState: action?.payload,
+            };
+        }
+        case ACTION_TYPES.DIALOG_OPEN: {
+            return {
+                ...state,
+                dialogOpen: action?.payload,
+            };
+        }
+        case ACTION_TYPES.STATUS: {
+            return {
+                ...state,
+                status: action?.payload,
+            };
+        }
+        case ACTION_TYPES.SPECIES: {
+            return {
+                ...state,
+                species: action?.payload,
+            };
+        }
+        case ACTION_TYPES.GENDER: {
+            return {
+                ...state,
+                gender: action?.payload,
+            };
+        }
+        case ACTION_TYPES.FILTERED: {
+            return {
+                ...state,
+                filtered: action?.payload,
             };
         }
         case ACTION_TYPES.ERROR: {
             return {
                 ...state,
-                errorState: action.payload,
+                errorState: {
+                    error: action?.payload?.error,
+                    message: action?.payload?.message,
+                },
             };
         }
         case ACTION_TYPES.GET_CHARACTERS: {
             return {
                 ...state,
-                characters: action.payload.map(
+                characters: action?.payload?.map(
                     ({ id, status, image, name, species }) => ({
                         id,
                         status,

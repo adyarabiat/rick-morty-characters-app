@@ -1,12 +1,17 @@
-import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import { Text } from './styles';
+import { MainStateType } from '../../redux';
+import { useSelector } from 'react-redux';
 
 export default function Error() {
+    const errorMessage = useSelector<
+        MainStateType,
+        MainStateType['characters']['errorState']
+    >(({ characters }) => characters.errorState);
+
     return (
-        <Grid item xs={12} sm={12} md={12} lg={12}>
-            <Text variant="h5">
-                Something went wrong! Please try again later
-            </Text>
-        </Grid>
+        <Box marginTop={10}>
+            <Text variant="h5">{errorMessage.message.message}!</Text>
+        </Box>
     );
 }
