@@ -16,6 +16,8 @@ import {
     getCharactersAction,
     getChoosenEpisode,
     getListOfEpisodes,
+    getChoosenLocation,
+    getListOfLocations,
 } from '../../redux/Actions';
 
 export default function NavBar() {
@@ -35,6 +37,8 @@ export default function NavBar() {
         dispatch(getCharactersAction([]));
         dispatch(getChoosenEpisode({ name: '', id: '' }));
         dispatch(getListOfEpisodes([]));
+        dispatch(getChoosenLocation({ name: '', id: '' }));
+        dispatch(getListOfLocations([]));
         dispatch(changeInitialRender(false));
     };
 

@@ -10,26 +10,25 @@ import TextField from '@mui/material/TextField';
 import { Text } from './styles';
 import { numberToArr } from '../../helpers/numbertoArr';
 import {
-    GET_EPISODES_COUNT,
-    GET_EPISODES_LIST,
-    GET_EPIDSODE_CHARACTERS,
+    GET_LOCATIONS_COUNT,
+    GET_LOCATIONS_LIST,
+    GET_LOCATIONS_CHARACTERS,
 } from '../../graphql/Queries';
 import {
     getCharactersAction,
+    getLocationCount,
+    getListOfLocations,
+    getChoosenLocation,
     errorAction,
     loadingAction,
-    getEpisodesCount,
-    getListOfEpisodes,
-    getChoosenEpisode,
 } from '../../redux/Actions';
 
-export default function ByEpisodes() {
+export default function ByLocations() {
     const dispatch = useDispatch();
-
     const {
-        listOfEpisodes,
-        choosenEpisode,
-        episodesCount,
+        listOfLocations,
+        choosenLocation,
+        locationsCount,
         characters,
         loadingState,
     } = useSelector<MainStateType, MainStateType['characters']>(
@@ -37,41 +36,41 @@ export default function ByEpisodes() {
     );
 
     const {
-        data: episodesCountData,
-        error: errorEpisodeCounts,
-        loading: loadingEpisodeCounts,
-    } = useQuery(GET_EPISODES_COUNT, {
+        data: locationsCountData,
+        error: errorLocationCounts,
+        loading: loadingLocationCounts,
+    } = useQuery(GET_LOCATIONS_COUNT, {
         errorPolicy: 'all',
     });
 
     const [
-        getEpisodesList,
+        getLocationsList,
         {
-            loading: loadingEpisodesList,
-            error: errorEpisodesList,
-            data: episodesList,
-            called: calledEpisodesList,
+            loading: loadingLocationsList,
+            error: errorLocationsList,
+            data: LocationsList,
+            called: calledLocationsList,
         },
-    ] = useLazyQuery(GET_EPISODES_LIST);
+    ] = useLazyQuery(GET_LOCATIONS_LIST);
 
     const [
-        getEpisodesCharacters,
+        getLocationCharacters,
         {
-            loading: loadingEpisodeCharacters,
-            error: errorEpisodeCharacters,
+            loading: loadingLocationCharacters,
+            error: errorLocationCharacters,
             data: charactersList,
-            called: calledEpisodeCharacters,
+            called: calledLocationCharacters,
         },
-    ] = useLazyQuery(GET_EPIDSODE_CHARACTERS);
+    ] = useLazyQuery(GET_LOCATIONS_CHARACTERS);
 
     useEffect(() => {
-        if (loadingEpisodeCharacters) dispatch(loadingAction(true));
-        if (!loadingEpisodeCharacters) dispatch(loadingAction(false));
+        if (loadingLocationCharacters) dispatch(loadingAction(true));
+        if (!loadingLocationCharacters) dispatch(loadingAction(false));
 
-        if (errorEpisodesList || errorEpisodeCharacters) {
+        if (errorLocationsList || errorLocationCharacters) {
             let error;
-            if (errorEpisodesList) error = errorEpisodesList;
-            if (errorEpisodeCharacters) error = errorEpisodeCharacters;
+            if (errorLocationsList) error = errorLocationsList;
+            if (errorLocationCharacters) error = errorLocationCharacters;
             dispatch(
                 errorAction({
                     error: true,
@@ -79,7 +78,7 @@ export default function ByEpisodes() {
                 })
             );
         }
-        if (!errorEpisodesList || !errorEpisodeCharacters)
+        if (!errorLocationsList || !errorLocationCharacters)
             dispatch(
                 errorAction({
                     error: false,
@@ -87,70 +86,71 @@ export default function ByEpisodes() {
                 })
             );
     }, [
-        loadingEpisodesList,
-        loadingEpisodeCharacters,
-        errorEpisodesList,
-        errorEpisodeCharacters,
+        loadingLocationsList,
+        loadingLocationCharacters,
+        errorLocationsList,
+        errorLocationCharacters,
         dispatch,
     ]);
 
     useEffect(() => {
-        if (episodesCountData) {
-            let count = episodesCountData?.episodes?.info?.count;
-            dispatch(getEpisodesCount(count));
+        if (locationsCountData) {
+            let count = locationsCountData?.locations?.info?.count;
+            dispatch(getLocationCount(count));
         }
-    }, [dispatch, episodesCountData]);
+    }, [dispatch, locationsCountData]);
 
     useEffect(() => {
-        if (episodesCount !== 0) {
-            getEpisodesList({
+        if (locationsCount !== 0) {
+            getLocationsList({
                 variables: {
-                    ids: numberToArr(episodesCount),
+                    ids: numberToArr(locationsCount),
                 },
                 errorPolicy: 'all',
             });
-            if (episodesList) {
-                let episodes = episodesList?.episodesByIds;
-                dispatch(getListOfEpisodes(episodes));
+            if (LocationsList) {
+                let locations = LocationsList?.locationsByIds;
+                dispatch(getListOfLocations(locations));
             }
         }
-    }, [dispatch, getEpisodesList, episodesList, episodesCount]);
+    }, [dispatch, getLocationsList, LocationsList, locationsCount]);
 
     useEffect(() => {
-        if (choosenEpisode.id !== '' && choosenEpisode.name !== '') {
-            getEpisodesCharacters({
+        if (choosenLocation.id !== '' && choosenLocation.name !== '') {
+            getLocationCharacters({
                 variables: {
-                    id: choosenEpisode.id,
+                    id: choosenLocation.id,
                 },
                 errorPolicy: 'all',
             });
             if (charactersList) {
-                let characters = charactersList?.episode?.characters;
-                dispatch(getCharactersAction(characters));
+                let residents = charactersList?.location?.residents;
+                dispatch(getCharactersAction(residents));
             }
         }
-    }, [dispatch, getEpisodesCharacters, charactersList, choosenEpisode]);
+    }, [dispatch, getLocationCharacters, charactersList, choosenLocation]);
 
     return (
         <Box width="70%">
             <Grid container spacing={2} marginBottom={3}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TextField
-                        value={choosenEpisode.id}
+                        value={choosenLocation.id}
                         fullWidth
-                        disabled={listOfEpisodes.length === 0}
+                        disabled={listOfLocations.length === 0}
                         sx={{ m: 1 }}
                         onChange={(e) => {
-                            let selected = listOfEpisodes.find(
+                            let selected = listOfLocations.find(
                                 (el) => el.id === e.target.value
                             );
-                            if (selected) dispatch(getChoosenEpisode(selected));
+                            if (selected)
+                                dispatch(getChoosenLocation(selected));
                         }}
                         select
-                        label="Pick Episode"
+                        label="Pick Location"
                     >
                         <Typography gutterBottom></Typography>
-                        {listOfEpisodes?.map(({ name, id }) => (
+                        {listOfLocations?.map(({ name, id }) => (
                             <MenuItem key={id} value={id}>
                                 {id} - {name}
                             </MenuItem>
@@ -167,17 +167,17 @@ export default function ByEpisodes() {
                         marginTop={3}
                         marginBottom={3}
                     >
-                        {choosenEpisode.name !== '' &&
-                        choosenEpisode.id !== '' ? (
+                        {choosenLocation.name !== '' &&
+                        choosenLocation.id !== '' ? (
                             <Typography variant="h4" color="primary">
                                 <span
                                     style={{
                                         color: '#010101',
                                     }}
                                 >
-                                    Episode {choosenEpisode?.id}:
+                                    Location {choosenLocation?.id}:
                                 </span>{' '}
-                                {choosenEpisode?.name}
+                                {choosenLocation?.name}
                             </Typography>
                         ) : (
                             <Box
@@ -189,14 +189,14 @@ export default function ByEpisodes() {
                                 marginBottom={5}
                             >
                                 <Text variant="h5">
-                                    Please pick episode to show characters
+                                    Please pick location to show the residents
                                 </Text>
                             </Box>
                         )}
                     </Box>
                 </Grid>
-                {choosenEpisode.name !== '' &&
-                    choosenEpisode.id !== '' &&
+                {choosenLocation.name !== '' &&
+                    choosenLocation.id !== '' &&
                     !loadingState &&
                     characters.length === 0 && (
                         <Grid item xs={12} sm={12} md={12} lg={12}>
@@ -209,8 +209,8 @@ export default function ByEpisodes() {
                                 marginBottom={5}
                             >
                                 <Text variant="h5">
-                                    On {choosenEpisode?.name} episode there are
-                                    no characters...
+                                    On {choosenLocation?.name} location there
+                                    are no residents...
                                 </Text>
                             </Box>
                         </Grid>

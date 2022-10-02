@@ -69,21 +69,21 @@ type ActionsType =
           }[];
       }
     | {
-          type: ACTION_TYPES.LIST_OF_EPISODES;
+          type: ACTION_TYPES.LIST_OF_EPISODES | ACTION_TYPES.LIST_OF_LOCATIONS;
           payload: {
               id: string;
               name: string;
           }[];
       }
     | {
-          type: ACTION_TYPES.CHOOSEN_EPISODE;
+          type: ACTION_TYPES.CHOOSEN_EPISODE | ACTION_TYPES.CHOOSEN_LOCATION;
           payload: {
               name: string;
               id: string;
           };
       }
     | {
-          type: ACTION_TYPES.EPISODES_COUNT;
+          type: ACTION_TYPES.EPISODES_COUNT | ACTION_TYPES.LOCATION_COUNT;
           payload: number;
       };
 
@@ -94,6 +94,12 @@ const INITIAL_STATE = {
     episodesCount: 0,
     listOfEpisodes: [],
     choosenEpisode: {
+        name: '',
+        id: '',
+    },
+    locationsCount: 0,
+    listOfLocations: [],
+    choosenLocation: {
         name: '',
         id: '',
     },
@@ -123,6 +129,12 @@ const charactersReducer = (state = INITIAL_STATE, action: ActionsType) => {
                 episodesCount: action?.payload,
             };
         }
+        case ACTION_TYPES.LOCATION_COUNT: {
+            return {
+                ...state,
+                locationsCount: action?.payload,
+            };
+        }
         case ACTION_TYPES.LIST_OF_EPISODES: {
             return {
                 ...state,
@@ -132,10 +144,13 @@ const charactersReducer = (state = INITIAL_STATE, action: ActionsType) => {
                 })),
             };
         }
-        case ACTION_TYPES.GET_BY: {
+        case ACTION_TYPES.LIST_OF_LOCATIONS: {
             return {
                 ...state,
-                getBy: action?.payload,
+                listOfLocations: action?.payload?.map(({ id, name }) => ({
+                    id,
+                    name,
+                })),
             };
         }
         case ACTION_TYPES.CHOOSEN_EPISODE: {
@@ -144,6 +159,19 @@ const charactersReducer = (state = INITIAL_STATE, action: ActionsType) => {
                 choosenEpisode: action?.payload,
             };
         }
+        case ACTION_TYPES.CHOOSEN_LOCATION: {
+            return {
+                ...state,
+                choosenLocation: action?.payload,
+            };
+        }
+        case ACTION_TYPES.GET_BY: {
+            return {
+                ...state,
+                getBy: action?.payload,
+            };
+        }
+
         case ACTION_TYPES.INITIAL_RENDER: {
             return {
                 ...state,

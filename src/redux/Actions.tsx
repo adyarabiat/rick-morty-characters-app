@@ -24,7 +24,6 @@ export const fitlered = (fitlered: boolean) => {
         payload: fitlered,
     };
 };
-
 type errorType = {
     error: boolean;
     message: any;
@@ -35,7 +34,18 @@ export const errorAction = (error: errorType) => {
         payload: error,
     };
 };
-
+export const getEpisodesCount = (count: number) => {
+    return {
+        type: ACTION_TYPES.EPISODES_COUNT,
+        payload: count,
+    };
+};
+export const getLocationCount = (count: number) => {
+    return {
+        type: ACTION_TYPES.LOCATION_COUNT,
+        payload: count,
+    };
+};
 type ChoosenEpisodeType = {
     name: string;
     id: string;
@@ -46,10 +56,34 @@ export const getChoosenEpisode = (episode: ChoosenEpisodeType) => {
         payload: episode,
     };
 };
-export const getEpisodesCount = (count: number) => {
+type ChoosenLocationType = {
+    name: string;
+    id: string;
+};
+export const getChoosenLocation = (location: ChoosenLocationType) => {
     return {
-        type: ACTION_TYPES.EPISODES_COUNT,
-        payload: count,
+        type: ACTION_TYPES.CHOOSEN_LOCATION,
+        payload: location,
+    };
+};
+type ListOfEpisodes = {
+    id: string;
+    name: string;
+}[];
+export const getListOfEpisodes = (list: ListOfEpisodes) => {
+    return {
+        type: ACTION_TYPES.LIST_OF_EPISODES,
+        payload: list,
+    };
+};
+type ListOfLocations = {
+    id: string;
+    name: string;
+}[];
+export const getListOfLocations = (list: ListOfLocations) => {
+    return {
+        type: ACTION_TYPES.LIST_OF_LOCATIONS,
+        payload: list,
     };
 };
 
@@ -113,16 +147,6 @@ export const changeGender = (gender: string) => {
 export const changeGetBy = (by: string) => {
     return {
         type: ACTION_TYPES.GET_BY,
-        payload: by,
-    };
-};
-type ListOfEpisodes = {
-    id: string;
-    name: string;
-}[];
-export const getListOfEpisodes = (by: ListOfEpisodes) => {
-    return {
-        type: ACTION_TYPES.LIST_OF_EPISODES,
         payload: by,
     };
 };

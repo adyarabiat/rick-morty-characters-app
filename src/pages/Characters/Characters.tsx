@@ -11,6 +11,7 @@ import Spinner from '../../components/Spinner';
 import NavBar from '../../components/NavBar';
 import ByCharacters from '../../components/ByCharacters';
 import ByEpisodes from '../../components/ByEpisodes';
+import ByLocations from '../../components/ByLocations';
 
 export default function Characters() {
     const characters = useSelector<MainStateType, MainStateType['characters']>(
@@ -35,6 +36,7 @@ export default function Characters() {
                 <NavBar />
                 {characters?.getBy === 'characters' && <ByCharacters />}
                 {characters?.getBy === 'episodes' && <ByEpisodes />}
+                {characters?.getBy === 'location' && <ByLocations />}
                 <Grid container spacing={2} maxWidth="1100px">
                     {characters?.getBy === 'characters' &&
                     !characters?.loadingState &&

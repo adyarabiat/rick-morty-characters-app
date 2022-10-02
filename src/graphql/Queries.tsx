@@ -131,3 +131,35 @@ export const GET_EPIDSODE_CHARACTERS = gql`
         }
     }
 `;
+
+export const GET_LOCATIONS_COUNT = gql`
+    query {
+        locations {
+            info {
+                count
+            }
+        }
+    }
+`;
+export const GET_LOCATIONS_LIST = gql`
+    query getLocations($ids: [ID!]!) {
+        locationsByIds(ids: $ids) {
+            id
+            name
+        }
+    }
+`;
+
+export const GET_LOCATIONS_CHARACTERS = gql`
+    query getLocationCharacters($id: ID!) {
+        location(id: $id) {
+            residents {
+                id
+                name
+                image
+                status
+                species
+            }
+        }
+    }
+`;

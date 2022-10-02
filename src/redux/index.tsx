@@ -27,6 +27,15 @@ export type MainStateType = {
             name: string;
             id: string;
         };
+        locationsCount: number;
+        listOfLocations: {
+            id: string;
+            name: string;
+        }[];
+        choosenLocation: {
+            name: string;
+            id: string;
+        };
         pageInfo: {
             page: number;
             pages: number;
