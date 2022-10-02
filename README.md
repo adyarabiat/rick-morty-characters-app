@@ -1,5 +1,7 @@
 # Rick And Morty Characters App
 
+![plot](/src/assets/logo.png)
+
 To start you need first run
 
 ### `yarn install`
