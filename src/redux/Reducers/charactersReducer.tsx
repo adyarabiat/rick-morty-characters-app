@@ -66,6 +66,7 @@ type ActionsType =
               image: string;
               name: string;
               species: string;
+              gender: string;
           }[];
       }
     | {
@@ -227,12 +228,13 @@ const charactersReducer = (state = INITIAL_STATE, action: ActionsType) => {
             return {
                 ...state,
                 characters: action?.payload?.map(
-                    ({ id, status, image, name, species }) => ({
+                    ({ id, status, image, name, species, gender }) => ({
                         id,
                         status,
                         image,
                         name,
                         species,
+                        gender,
                     })
                 ),
             };

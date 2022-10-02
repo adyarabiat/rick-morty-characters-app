@@ -1,7 +1,6 @@
-import { useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import CharactersCard from '../../components/CharactersCard';
 import Error from '../../components/Error/Error';
 import Pagination from '../../components/Pagination';
@@ -19,9 +18,6 @@ export default function Characters() {
     );
 
     if (characters?.errorState?.error) return <Error />;
-
-    console.log(characters?.loadingState);
-
     return (
         <Box display="flex" justifyContent="center" alignItems="center">
             <Box

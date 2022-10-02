@@ -1,13 +1,12 @@
-import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { CardContainer, Btn, Badge } from './styles';
+
+import { CardContainer, Badge } from './styles';
 import { MainStateType } from '../../redux';
 
 export default function CharactersCard() {
@@ -31,7 +30,10 @@ export default function CharactersCard() {
                         justifyContent="center"
                         alignItems="center"
                     >
-                        <CardContainer>
+                        <CardContainer
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => onClickCharacter(character?.id)}
+                        >
                             <div style={{ position: 'relative' }}>
                                 <Badge backgroundColor={character?.status}>
                                     {character?.status}
@@ -50,34 +52,44 @@ export default function CharactersCard() {
                                     >
                                         {character?.name}
                                     </Typography>
-                                    <Typography variant="body2" color="gray">
-                                        Species
-                                    </Typography>
-                                    <Typography
-                                        gutterBottom
-                                        variant="subtitle2"
-                                        component="div"
-                                    >
-                                        {character?.species}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
                                     <Box
                                         display="flex"
-                                        justifyContent="center"
-                                        width="100%"
+                                        alignItems="center"
+                                        justifyContent="space-between"
                                     >
-                                        <Btn
-                                            variant="contained"
-                                            size="small"
-                                            onClick={() =>
-                                                onClickCharacter(character?.id)
-                                            }
-                                        >
-                                            View Details
-                                        </Btn>
+                                        <Box>
+                                            <Typography
+                                                color="primary"
+                                                variant="body2"
+                                            >
+                                                Gender
+                                            </Typography>
+                                            <Typography
+                                                gutterBottom
+                                                variant="subtitle1"
+                                                component="div"
+                                            >
+                                                {character?.gender || '-'}
+                                            </Typography>
+                                        </Box>
+
+                                        <Box>
+                                            <Typography
+                                                color="primary"
+                                                variant="body2"
+                                            >
+                                                Species
+                                            </Typography>
+                                            <Typography
+                                                gutterBottom
+                                                variant="subtitle1"
+                                                component="div"
+                                            >
+                                                {character?.species}
+                                            </Typography>
+                                        </Box>
                                     </Box>
-                                </CardActions>
+                                </CardContent>
                             </div>
                         </CardContainer>
                     </Box>

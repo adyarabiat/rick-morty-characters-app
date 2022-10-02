@@ -47,6 +47,7 @@ export type MainStateType = {
             image: string;
             name: string;
             species: string;
+            gender: string;
         }[];
         character: {
             image: string;

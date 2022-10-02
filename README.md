@@ -1,10 +1,8 @@
 # Rick And Morty Characters App
 
-![plot](/src/assets/logo.png)
+![plot](/src/assets/screen.png)
 
-URL
-
-[a link](https://rick-morty-characters-app-hb47.vercel.app/)
+[URL](https://rick-morty-characters-app-hb47.vercel.app/)
 
 To start you need first run
 

@@ -4,20 +4,11 @@ import Card from '@mui/material/Card';
 
 export const CardContainer = styled(Card)(({ theme }) => ({
     width: 300,
-    height: 450,
+    height: 400,
     background: theme.palette.secondary.main,
     color: theme.palette.common.white,
-    border: `1px solid ${theme.palette.secondary.main}`,
+    border: `3px solid ${theme.palette.primary.main}`,
 })) as typeof Card;
-
-export const Btn = styled(Button)(({ theme }) => ({
-    fontWeight: 'bold',
-    width: '60%',
-    background: theme.palette.primary.main,
-    '&:hover': {
-        backgroundColor: theme.palette.primary.light,
-    },
-})) as typeof Button;
 
 type BackgroundColorProp = {
     backgroundColor: string;

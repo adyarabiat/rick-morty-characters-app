@@ -9,6 +9,7 @@ export const LOAD_CHARACTERS = gql`
                 image
                 status
                 species
+                gender
             }
             info {
                 count
@@ -50,6 +51,7 @@ export const GET_CHARACTERS_BY_NAME = gql`
                 image
                 status
                 species
+                gender
                 location {
                     name
                 }
@@ -86,6 +88,7 @@ export const FITLER_CHARACTERS = gql`
                 image
                 status
                 species
+                gender
                 location {
                     name
                 }
@@ -127,6 +130,7 @@ export const GET_EPIDSODE_CHARACTERS = gql`
                 image
                 status
                 species
+                gender
             }
         }
     }
@@ -159,6 +163,7 @@ export const GET_LOCATIONS_CHARACTERS = gql`
                 image
                 status
                 species
+                gender
             }
         }
     }

@@ -93,6 +93,7 @@ type Characters = {
     image: string;
     name: string;
     species: string;
+    gender: string;
 }[];
 export const getCharactersAction = (data: Characters) => {
     return {
