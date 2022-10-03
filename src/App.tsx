@@ -30,7 +30,6 @@ function App() {
                                 exact
                                 component={Character}
                             />
-
                             <Redirect path="/*" to="/characters" />
                         </Switch>
                     </Suspense>

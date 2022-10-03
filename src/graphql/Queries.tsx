@@ -1,70 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const LOAD_CHARACTERS = gql`
-    query LoadCharacters($page: Int) {
-        characters(page: $page) {
-            results {
-                id
-                name
-                image
-                status
-                species
-                gender
-            }
-            info {
-                count
-                pages
-            }
-        }
-    }
-`;
-export const LOAD_CHARACTER = gql`
-    query LoadCharacter($id: ID!) {
-        character(id: $id) {
-            id
-            name
-            status
-            species
-            type
-            gender
-            image
-            created
-            origin {
-                name
-            }
-            location {
-                name
-            }
-            episode {
-                name
-                episode
-            }
-        }
-    }
-`;
-export const GET_CHARACTERS_BY_NAME = gql`
-    query getCharactersByName($name: String!) {
-        characters(filter: { name: $name }) {
-            results {
-                id
-                name
-                image
-                status
-                species
-                gender
-                location {
-                    name
-                }
-            }
-            info {
-                count
-                pages
-                next
-                prev
-            }
-        }
-    }
-`;
 export const FITLER_CHARACTERS = gql`
     query getCharactersByFilter(
         $page: Int
@@ -102,7 +37,30 @@ export const FITLER_CHARACTERS = gql`
         }
     }
 `;
-
+export const LOAD_CHARACTER = gql`
+    query LoadCharacter($id: ID!) {
+        character(id: $id) {
+            id
+            name
+            status
+            species
+            type
+            gender
+            image
+            created
+            origin {
+                name
+            }
+            location {
+                name
+            }
+            episode {
+                name
+                episode
+            }
+        }
+    }
+`;
 export const GET_EPISODES_COUNT = gql`
     query {
         episodes {
@@ -120,7 +78,6 @@ export const GET_EPISODES_LIST = gql`
         }
     }
 `;
-
 export const GET_EPIDSODE_CHARACTERS = gql`
     query getEpisodeCharacters($id: ID!) {
         episode(id: $id) {
@@ -135,7 +92,6 @@ export const GET_EPIDSODE_CHARACTERS = gql`
         }
     }
 `;
-
 export const GET_LOCATIONS_COUNT = gql`
     query {
         locations {
@@ -153,7 +109,6 @@ export const GET_LOCATIONS_LIST = gql`
         }
     }
 `;
-
 export const GET_LOCATIONS_CHARACTERS = gql`
     query getLocationCharacters($id: ID!) {
         location(id: $id) {

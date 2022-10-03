@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useHistory } from 'react-router-dom';
-import useCharacter from '../../hooks/useCharacter';
+import { useQuery } from '@apollo/client';
+import { LOAD_CHARACTER } from '../../graphql/Queries';
 import Error from '../../components/Error/Error';
-
 import { getCharacterAction } from '../../redux/Actions';
 import CharacterCard from '../../components/CharacterCard';
 import { loadingAction, errorAction } from '../../redux/Actions';
@@ -13,9 +13,13 @@ import Spinner from '../../components/Spinner';
 export default function Character() {
     const dispatch = useDispatch();
     const history = useHistory();
-
     const { id } = useParams<{ id: string }>();
-    const { data, error, loading } = useCharacter(id);
+    const { data, error, loading } = useQuery(LOAD_CHARACTER, {
+        variables: {
+            id,
+        },
+        errorPolicy: 'all',
+    });
 
     useEffect(() => {
         if (isNaN(+id)) return history.push({ pathname: '/' });

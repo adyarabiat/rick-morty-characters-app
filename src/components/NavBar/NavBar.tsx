@@ -23,10 +23,9 @@ import {
 export default function NavBar() {
     const dispatch = useDispatch();
 
-    const getBy = useSelector<
-        MainStateType,
-        MainStateType['characters']['getBy']
-    >(({ characters: { getBy } }) => getBy);
+    const { getBy } = useSelector<MainStateType, MainStateType['characters']>(
+        ({ characters }) => characters
+    );
 
     const clearFilterHanlder = () => {
         dispatch(changeStatus(''));

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLazyQuery, useQuery } from '@apollo/client';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import InputAdornment from '@mui/material/InputAdornment';
 import Grid from '@mui/material/Grid';
 import { MainStateType } from '../../redux';
 import MenuItem from '@mui/material/MenuItem';
@@ -22,6 +23,7 @@ import {
     errorAction,
     loadingAction,
 } from '../../redux/Actions';
+import PrograssCircular from '../PrograssCircular/PrograssCircular';
 
 export default function ByLocations() {
     const dispatch = useDispatch();
@@ -46,9 +48,9 @@ export default function ByLocations() {
     const [
         getLocationsList,
         {
+            data: LocationsList,
             loading: loadingLocationsList,
             error: errorLocationsList,
-            data: LocationsList,
             called: calledLocationsList,
         },
     ] = useLazyQuery(GET_LOCATIONS_LIST);
@@ -56,19 +58,22 @@ export default function ByLocations() {
     const [
         getLocationCharacters,
         {
+            data: charactersList,
             loading: loadingLocationCharacters,
             error: errorLocationCharacters,
-            data: charactersList,
-            called: calledLocationCharacters,
         },
     ] = useLazyQuery(GET_LOCATIONS_CHARACTERS);
 
     useEffect(() => {
         if (loadingLocationCharacters) dispatch(loadingAction(true));
         if (!loadingLocationCharacters) dispatch(loadingAction(false));
-
-        if (errorLocationsList || errorLocationCharacters) {
+        if (
+            errorLocationCounts ||
+            errorLocationsList ||
+            errorLocationCharacters
+        ) {
             let error;
+            if (errorLocationCounts) error = errorLocationCounts;
             if (errorLocationsList) error = errorLocationsList;
             if (errorLocationCharacters) error = errorLocationCharacters;
             dispatch(
@@ -86,8 +91,8 @@ export default function ByLocations() {
                 })
             );
     }, [
-        loadingLocationsList,
         loadingLocationCharacters,
+        errorLocationCounts,
         errorLocationsList,
         errorLocationCharacters,
         dispatch,
@@ -101,7 +106,7 @@ export default function ByLocations() {
     }, [dispatch, locationsCountData]);
 
     useEffect(() => {
-        if (locationsCount !== 0) {
+        if (locationsCount !== 0 || !calledLocationsList) {
             getLocationsList({
                 variables: {
                     ids: numberToArr(locationsCount),
@@ -113,7 +118,13 @@ export default function ByLocations() {
                 dispatch(getListOfLocations(locations));
             }
         }
-    }, [dispatch, getLocationsList, LocationsList, locationsCount]);
+    }, [
+        dispatch,
+        getLocationsList,
+        LocationsList,
+        locationsCount,
+        calledLocationsList,
+    ]);
 
     useEffect(() => {
         if (choosenLocation.id !== '' && choosenLocation.name !== '') {
@@ -131,13 +142,27 @@ export default function ByLocations() {
     }, [dispatch, getLocationCharacters, charactersList, choosenLocation]);
 
     return (
-        <Box width="70%">
+        <Box width="100%" maxWidth="600px" marginBottom={3}>
             <Grid container spacing={2} marginBottom={3}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TextField
                         value={choosenLocation.id}
                         fullWidth
                         disabled={listOfLocations.length === 0}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment
+                                    position="start"
+                                    style={{ marginRight: 30 }}
+                                >
+                                    {loadingLocationCounts ||
+                                    loadingLocationsList ||
+                                    loadingLocationCharacters ? (
+                                        <PrograssCircular />
+                                    ) : null}
+                                </InputAdornment>
+                            ),
+                        }}
                         sx={{ m: 1 }}
                         onChange={(e) => {
                             let selected = listOfLocations.find(

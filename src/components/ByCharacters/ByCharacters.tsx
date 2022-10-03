@@ -1,13 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLazyQuery } from '@apollo/client';
-
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import MenuItem from '@mui/material/MenuItem';
+import TextField from '@mui/material/TextField';
 import RepeatIcon from '@mui/icons-material/Repeat';
 import {
     getCharactersAction,
@@ -23,26 +23,17 @@ import {
 } from '../../redux/Actions';
 import { MainStateType } from '../../redux';
 import { TextBox } from './styles';
-
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
 import { FITLER_CHARACTERS } from '../../graphql/Queries';
-import PrograssCircular from './components/PrograssCircular';
+import PrograssCircular from '../PrograssCircular/PrograssCircular';
+import { statusList, genderList, speciesList } from './staticData';
 
 export default function ByCharacters() {
+    const [typing, setTyping] = useState(false);
     const dispatch = useDispatch();
-    const {
-        status,
-        species,
-        gender,
-        pageInfo,
-        searchName,
-        loadingState,
-        initialRender,
-    } = useSelector<MainStateType, MainStateType['characters']>(
-        ({ characters }) => characters
-    );
-
+    const { status, species, gender, pageInfo, searchName, initialRender } =
+        useSelector<MainStateType, MainStateType['characters']>(
+            ({ characters }) => characters
+        );
     const [getCharactersByFilter, { loading, error, data, called }] =
         useLazyQuery(FITLER_CHARACTERS);
 
@@ -54,28 +45,6 @@ export default function ByCharacters() {
         dispatch(pageChangeAction(1));
         dispatch(changeInitialRender(false));
     };
-
-    useEffect(() => {
-        if (!initialRender)
-            getCharactersByFilter({
-                variables: {
-                    page: pageInfo.page,
-                    status,
-                    name: searchName,
-                    species,
-                    gender,
-                },
-                errorPolicy: 'all',
-            });
-    }, [
-        initialRender,
-        pageInfo.page,
-        status,
-        searchName,
-        species,
-        gender,
-        getCharactersByFilter,
-    ]);
 
     useEffect(() => {
         getCharactersByFilter({
@@ -107,6 +76,28 @@ export default function ByCharacters() {
         gender,
     ]);
     useEffect(() => {
+        if (!called)
+            getCharactersByFilter({
+                variables: {
+                    page: pageInfo.page,
+                    status,
+                    name: searchName,
+                    species,
+                    gender,
+                },
+                errorPolicy: 'all',
+            });
+    }, [
+        called,
+        initialRender,
+        pageInfo.page,
+        status,
+        searchName,
+        species,
+        gender,
+        getCharactersByFilter,
+    ]);
+    useEffect(() => {
         if (loading) dispatch(loadingAction(true));
         if (!loading) dispatch(loadingAction(false));
         if (error)
@@ -124,30 +115,26 @@ export default function ByCharacters() {
                 })
             );
     }, [loading, error, dispatch]);
+
     return (
-        <Box width="70%">
+        <Box width="100%" maxWidth="600px" marginBottom={3}>
             <Grid container spacing={2} marginBottom={3}>
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                     <TextField
                         value={status}
                         fullWidth
+                        select
+                        label="Status"
                         onChange={(e) => {
                             dispatch(pageChangeAction(1));
                             dispatch(changeStatus(e.target.value));
                         }}
-                        select
-                        label="Status"
                     >
-                        <Typography gutterBottom></Typography>
-                        <MenuItem key={1} value="Alive">
-                            Alive
-                        </MenuItem>
-                        <MenuItem key={2} value="Dead">
-                            Dead
-                        </MenuItem>
-                        <MenuItem key={3} value="unknown">
-                            Unknown
-                        </MenuItem>
+                        {statusList.map(({ key, label, value }) => (
+                            <MenuItem key={key} value={value}>
+                                {label}
+                            </MenuItem>
+                        ))}
                     </TextField>
                 </Grid>
                 <Grid item xs={12} sm={12} md={4} lg={4}>
@@ -161,22 +148,13 @@ export default function ByCharacters() {
                         select
                         label="Gender"
                     >
-                        <Typography gutterBottom></Typography>
-                        <MenuItem key={1} value="female">
-                            Female
-                        </MenuItem>
-                        <MenuItem key={2} value="male">
-                            Male
-                        </MenuItem>
-                        <MenuItem key={3} value="genderless">
-                            Genderless
-                        </MenuItem>
-                        <MenuItem key={4} value="unknown">
-                            Unknown
-                        </MenuItem>
+                        {genderList.map(({ label, value, key }) => (
+                            <MenuItem key={key} value={value}>
+                                {label}
+                            </MenuItem>
+                        ))}
                     </TextField>
                 </Grid>
-
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                     <TextField
                         value={species}
@@ -188,41 +166,13 @@ export default function ByCharacters() {
                         select
                         label="Species"
                     >
-                        <Typography gutterBottom></Typography>
-                        <MenuItem key={1} value="Human">
-                            Human
-                        </MenuItem>
-                        <MenuItem key={2} value="Animal">
-                            Animal
-                        </MenuItem>
-                        <MenuItem key={3} value="Robot">
-                            Robot
-                        </MenuItem>
-                        <MenuItem key={4} value="Alien">
-                            Alien
-                        </MenuItem>
-                        <MenuItem key={5} value="Humanoid">
-                            Humanoid
-                        </MenuItem>
-
-                        <MenuItem key={6} value="unPoopybuttholeknown">
-                            Poopybutthole
-                        </MenuItem>
-                        <MenuItem key={7} value="Mythological Creature">
-                            Mythological Creature
-                        </MenuItem>
-                        <MenuItem key={8} value="Cronenberg">
-                            Cronenberg
-                        </MenuItem>
-                        <MenuItem key={9} value="Disease">
-                            Disease
-                        </MenuItem>
-                        <MenuItem key={10} value="unknown">
-                            unknown
-                        </MenuItem>
+                        {speciesList.map(({ label, value, key }) => (
+                            <MenuItem key={key} value={value}>
+                                {label}
+                            </MenuItem>
+                        ))}
                     </TextField>
                 </Grid>
-
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TextBox
                         id="input-with-icon-textfield"
@@ -235,12 +185,14 @@ export default function ByCharacters() {
                             ),
                             endAdornment: (
                                 <InputAdornment position="start">
-                                    {loadingState && <PrograssCircular />}
+                                    {typing && <PrograssCircular />}
                                 </InputAdornment>
                             ),
                         }}
                         variant="outlined"
                         value={searchName}
+                        onKeyDown={() => setTyping(true)}
+                        onKeyUp={() => setTyping(false)}
                         onChange={(e) => {
                             dispatch(pageChangeAction(1));
                             dispatch(searchNameAction(e.target.value));
@@ -258,7 +210,8 @@ export default function ByCharacters() {
                         <Button
                             startIcon={<RepeatIcon />}
                             onClick={clearFilterHanlder}
-                            variant="outlined"
+                            variant="contained"
+                            style={{ color: '#fff' }}
                         >
                             Reset
                         </Button>

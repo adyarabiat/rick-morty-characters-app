@@ -90,6 +90,18 @@ type ActionsType =
 
 const INITIAL_STATE = {
     getBy: 'characters',
+    pageInfo: {
+        page: 1,
+        pages: 0,
+        count: 0,
+    },
+    initialRender: false,
+    loadingState: false,
+    errorState: {
+        error: false,
+        message: '',
+    },
+    dialogOpen: false,
     characters: [],
     character: {},
     episodesCount: 0,
@@ -104,19 +116,7 @@ const INITIAL_STATE = {
         name: '',
         id: '',
     },
-    pageInfo: {
-        page: 1,
-        pages: 0,
-        count: 0,
-    },
-    loadingState: false,
-    errorState: {
-        error: false,
-        message: '',
-    },
     searchName: '',
-    initialRender: false,
-    dialogOpen: false,
     filtered: false,
     status: '',
     species: '',
