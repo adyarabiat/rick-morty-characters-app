@@ -47,8 +47,12 @@ export default function NavBar() {
     };
 
     return (
-        <Box sx={{ width: '100%', marginBottom: 5 }}>
-            <Tabs value={getBy} onChange={handleChange} centered>
+        <Box
+            sx={{ width: '100%', marginBottom: 5, bgcolor: 'background.paper' }}
+            display="flex"
+            justifyContent="center"
+        >
+            <Tabs variant="scrollable" value={getBy} onChange={handleChange}>
                 <Tab value="characters" label="Characters" />
                 <Tab value="episodes" label="Episodes" />
                 <Tab value="location" label="Location" />

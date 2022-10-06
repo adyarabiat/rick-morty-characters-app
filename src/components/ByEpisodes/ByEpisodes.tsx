@@ -200,7 +200,6 @@ export default function ByEpisodes() {
                                 display="flex"
                                 justifyContent="center"
                                 marginTop={3}
-                                marginBottom={5}
                             >
                                 <Text variant="h5">
                                     Please pick episode to show characters
@@ -220,7 +219,6 @@ export default function ByEpisodes() {
                                 display="flex"
                                 justifyContent="center"
                                 marginTop={3}
-                                marginBottom={5}
                             >
                                 <Text variant="h5">
                                     On {choosenEpisode?.name} episode there are

@@ -211,7 +211,6 @@ export default function ByLocations() {
                                 display="flex"
                                 justifyContent="center"
                                 marginTop={3}
-                                marginBottom={5}
                             >
                                 <Text variant="h5">
                                     Please pick location to show the residents
@@ -231,7 +230,6 @@ export default function ByLocations() {
                                 display="flex"
                                 justifyContent="center"
                                 marginTop={3}
-                                marginBottom={5}
                             >
                                 <Text variant="h5">
                                     On {choosenLocation?.name} location there

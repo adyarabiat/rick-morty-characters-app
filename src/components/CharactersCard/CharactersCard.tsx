@@ -1,4 +1,4 @@
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import CardContent from '@mui/material/CardContent';
@@ -10,7 +10,7 @@ import { CardContainer, Badge } from './styles';
 import { MainStateType } from '../../redux';
 
 export default function CharactersCard() {
-    let history = useHistory();
+    const navigate = useNavigate();
 
     const characters = useSelector<
         MainStateType,
@@ -18,7 +18,7 @@ export default function CharactersCard() {
     >(({ characters }) => characters.characters);
 
     const onClickCharacter = (id: string) => {
-        history.push(`/character/${id}`);
+        navigate(`/character/${id}`);
     };
     return (
         <>
@@ -49,6 +49,7 @@ export default function CharactersCard() {
                                         gutterBottom
                                         variant="h6"
                                         component="div"
+                                        data-testid="character-feature-name"
                                     >
                                         {character?.name}
                                     </Typography>

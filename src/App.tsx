@@ -1,16 +1,16 @@
 import { Suspense, lazy } from 'react';
-import './App.css';
-import { Switch, Route, Redirect } from 'react-router-dom';
-import Header from './components/Header/Header';
-import { store } from './redux';
 import { Provider } from 'react-redux';
-import { BrowserRouter } from 'react-router-dom';
 import { ApolloProvider } from '@apollo/client';
+import { Route, Navigate, Routes } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { client } from './ApolloClient';
+import { store } from './redux';
+import Header from './components/Header/Header';
 import Spinner from './components/Spinner';
+import './App.css';
 
-const Characters = lazy(() => import('./pages/Characters/Characters'));
-const Character = lazy(() => import('./pages/Character/Character'));
+const Characters = lazy(() => import('./pages/Characters'));
+const Character = lazy(() => import('./pages/Character'));
 
 function App() {
     return (
@@ -19,19 +19,20 @@ function App() {
                 <BrowserRouter>
                     <Suspense fallback={<Spinner height={100} />}>
                         <Header />
-                        <Switch>
+                        <Routes>
                             <Route
                                 path="/characters"
-                                exact
-                                component={Characters}
+                                element={<Characters />}
                             />
                             <Route
                                 path="/character/:id"
-                                exact
-                                component={Character}
+                                element={<Character />}
                             />
-                            <Redirect path="/*" to="/characters" />
-                        </Switch>
+                            <Route
+                                path="/*"
+                                element={<Navigate replace to="/characters" />}
+                            />
+                        </Routes>
                     </Suspense>
                 </BrowserRouter>
             </Provider>

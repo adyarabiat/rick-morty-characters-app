@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
     Box,
     Grid,
@@ -15,7 +15,7 @@ import { common } from '@mui/material/colors';
 import theme from '../../theme';
 
 export default function CharacterCard() {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const character = useSelector<
         MainStateType,
@@ -81,7 +81,7 @@ export default function CharacterCard() {
                     <BackBtn
                         startIcon={<ArrowBackIcon />}
                         variant="contained"
-                        onClick={() => history.goBack()}
+                        onClick={() => navigate(-1)}
                     >
                         Back
                     </BackBtn>

@@ -22,7 +22,7 @@ import {
     changeInitialRender,
 } from '../../redux/Actions';
 import { MainStateType } from '../../redux';
-import { TextBox } from './styles';
+import { TextBox, Text } from './styles';
 import { FITLER_CHARACTERS } from '../../graphql/Queries';
 import PrograssCircular from '../PrograssCircular/PrograssCircular';
 import { statusList, genderList, speciesList } from './staticData';
@@ -30,10 +30,18 @@ import { statusList, genderList, speciesList } from './staticData';
 export default function ByCharacters() {
     const [typing, setTyping] = useState(false);
     const dispatch = useDispatch();
-    const { status, species, gender, pageInfo, searchName, initialRender } =
-        useSelector<MainStateType, MainStateType['characters']>(
-            ({ characters }) => characters
-        );
+    const {
+        status,
+        species,
+        gender,
+        pageInfo,
+        searchName,
+        initialRender,
+        characters,
+        loadingState,
+    } = useSelector<MainStateType, MainStateType['characters']>(
+        ({ characters }) => characters
+    );
     const [getCharactersByFilter, { loading, error, data, called }] =
         useLazyQuery(FITLER_CHARACTERS);
 
@@ -47,18 +55,34 @@ export default function ByCharacters() {
     };
 
     useEffect(() => {
-        getCharactersByFilter({
-            variables: {
-                page: pageInfo.page,
-                status,
-                name: searchName,
-                species,
-                gender,
-            },
-            errorPolicy: 'all',
-        });
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (searchName) {
+            const debounce = setTimeout(() => {
+                getCharactersByFilter({
+                    variables: {
+                        page: pageInfo.page,
+                        status,
+                        name: searchName,
+                        species,
+                        gender,
+                    },
+                    errorPolicy: 'all',
+                });
+                return () => clearTimeout(debounce);
+            }, 500);
+        } else {
+            getCharactersByFilter({
+                variables: {
+                    page: pageInfo.page,
+                    status,
+                    name: searchName,
+                    species,
+                    gender,
+                },
+                errorPolicy: 'all',
+            });
+        }
         if (data) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             let results = data?.characters?.results;
             let info = data?.characters?.info;
             dispatch(getCharactersAction(results));
@@ -75,6 +99,7 @@ export default function ByCharacters() {
         species,
         gender,
     ]);
+
     useEffect(() => {
         if (!called)
             getCharactersByFilter({
@@ -217,6 +242,19 @@ export default function ByCharacters() {
                         </Button>
                     </Box>
                 </Grid>
+                {!loadingState && characters.length === 0 && (
+                    <Grid item xs={12} sm={12} md={12} lg={12}>
+                        <Box
+                            maxWidth={500}
+                            margin="auto"
+                            display="flex"
+                            justifyContent="center"
+                            marginTop={6}
+                        >
+                            <Text variant="h5">No character found...</Text>
+                        </Box>
+                    </Grid>
+                )}
             </Grid>
         </Box>
     );
