@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const FITLER_CHARACTERS = gql`
+export const getFilterCharactersQuery = gql`
     query getCharactersByFilter(
         $page: Int
         $status: String!
@@ -24,9 +24,6 @@ export const FITLER_CHARACTERS = gql`
                 status
                 species
                 gender
-                location {
-                    name
-                }
             }
             info {
                 count
@@ -37,8 +34,8 @@ export const FITLER_CHARACTERS = gql`
         }
     }
 `;
-export const LOAD_CHARACTER = gql`
-    query LoadCharacter($id: ID!) {
+export const getCharacterQuery = gql`
+    query getCharacterbyId($id: ID!) {
         character(id: $id) {
             id
             name
@@ -54,15 +51,11 @@ export const LOAD_CHARACTER = gql`
             location {
                 name
             }
-            episode {
-                name
-                episode
-            }
         }
     }
 `;
-export const GET_EPISODES_COUNT = gql`
-    query {
+export const getEpisodesCountQuery = gql`
+    query getEpisodesCounts {
         episodes {
             info {
                 count
@@ -70,15 +63,15 @@ export const GET_EPISODES_COUNT = gql`
         }
     }
 `;
-export const GET_EPISODES_LIST = gql`
-    query getEpisodes($ids: [ID!]!) {
+export const getEpisodesListQuery = gql`
+    query getEpisodesList($ids: [ID!]!) {
         episodesByIds(ids: $ids) {
             id
             name
         }
     }
 `;
-export const GET_EPIDSODE_CHARACTERS = gql`
+export const getEpisodesCharactersQuery = gql`
     query getEpisodeCharacters($id: ID!) {
         episode(id: $id) {
             characters {
@@ -92,8 +85,8 @@ export const GET_EPIDSODE_CHARACTERS = gql`
         }
     }
 `;
-export const GET_LOCATIONS_COUNT = gql`
-    query {
+export const getLocationsCountQuery = gql`
+    query getLocationsCounts {
         locations {
             info {
                 count
@@ -101,15 +94,15 @@ export const GET_LOCATIONS_COUNT = gql`
         }
     }
 `;
-export const GET_LOCATIONS_LIST = gql`
-    query getLocations($ids: [ID!]!) {
+export const getLocationsListQuery = gql`
+    query getLocationsList($ids: [ID!]!) {
         locationsByIds(ids: $ids) {
             id
             name
         }
     }
 `;
-export const GET_LOCATIONS_CHARACTERS = gql`
+export const getLocationCharactersQuery = gql`
     query getLocationCharacters($id: ID!) {
         location(id: $id) {
             residents {

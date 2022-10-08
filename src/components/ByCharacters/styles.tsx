@@ -1,6 +1,6 @@
 import { styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import { Typography } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 
 export const TextBox = styled(TextField)(({ theme }) => ({
     width: '100%',
@@ -11,4 +11,8 @@ export const Text = styled(Typography)(({ theme }) => ({
     textAlign: 'center',
     fontWeight: 'bold',
     color: theme.palette.grey['500'],
+}));
+
+export const ResetBtn = styled(Button)(({ theme }) => ({
+    color: theme.palette.common.white,
 }));

@@ -4,7 +4,6 @@ import { useLazyQuery } from '@apollo/client';
 import SearchIcon from '@mui/icons-material/Search';
 import InputAdornment from '@mui/material/InputAdornment';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
@@ -19,11 +18,10 @@ import {
     changeStatus,
     changeSpecies,
     changeGender,
-    changeInitialRender,
-} from '../../redux/Actions';
+} from '../../redux/Actions/Actions';
 import { MainStateType } from '../../redux';
-import { TextBox, Text } from './styles';
-import { FITLER_CHARACTERS } from '../../graphql/Queries';
+import { TextBox, Text, ResetBtn } from './styles';
+import { getFilterCharactersQuery } from '../../graphql/Queries';
 import PrograssCircular from '../PrograssCircular/PrograssCircular';
 import { statusList, genderList, speciesList } from './staticData';
 
@@ -36,14 +34,13 @@ export default function ByCharacters() {
         gender,
         pageInfo,
         searchName,
-        initialRender,
         characters,
         loadingState,
     } = useSelector<MainStateType, MainStateType['characters']>(
         ({ characters }) => characters
     );
     const [getCharactersByFilter, { loading, error, data, called }] =
-        useLazyQuery(FITLER_CHARACTERS);
+        useLazyQuery(getFilterCharactersQuery);
 
     const clearFilterHanlder = () => {
         dispatch(changeStatus(''));
@@ -51,7 +48,6 @@ export default function ByCharacters() {
         dispatch(changeSpecies(''));
         dispatch(searchNameAction(''));
         dispatch(pageChangeAction(1));
-        dispatch(changeInitialRender(false));
     };
 
     useEffect(() => {
@@ -87,7 +83,6 @@ export default function ByCharacters() {
             let info = data?.characters?.info;
             dispatch(getCharactersAction(results));
             dispatch(getPageInfoAction(info));
-            dispatch(changeInitialRender(true));
         }
     }, [
         dispatch,
@@ -114,7 +109,6 @@ export default function ByCharacters() {
             });
     }, [
         called,
-        initialRender,
         pageInfo.page,
         status,
         searchName,
@@ -142,7 +136,12 @@ export default function ByCharacters() {
     }, [loading, error, dispatch]);
 
     return (
-        <Box width="100%" maxWidth="600px" marginBottom={3}>
+        <Box
+            width="100%"
+            maxWidth="600px"
+            marginBottom={3}
+            data-testid="by-characters"
+        >
             <Grid container spacing={2} marginBottom={3}>
                 <Grid item xs={12} sm={12} md={4} lg={4}>
                     <TextField
@@ -150,6 +149,7 @@ export default function ByCharacters() {
                         fullWidth
                         select
                         label="Status"
+                        data-testid="select-option-status"
                         onChange={(e) => {
                             dispatch(pageChangeAction(1));
                             dispatch(changeStatus(e.target.value));
@@ -166,12 +166,13 @@ export default function ByCharacters() {
                     <TextField
                         value={gender}
                         fullWidth
+                        select
+                        label="Gender"
+                        data-testid="select-option-gender"
                         onChange={(e) => {
                             dispatch(pageChangeAction(1));
                             dispatch(changeGender(e.target.value));
                         }}
-                        select
-                        label="Gender"
                     >
                         {genderList.map(({ label, value, key }) => (
                             <MenuItem key={key} value={value}>
@@ -184,12 +185,13 @@ export default function ByCharacters() {
                     <TextField
                         value={species}
                         fullWidth
+                        select
+                        label="Species"
+                        data-testid="select-option-species"
                         onChange={(e) => {
                             dispatch(pageChangeAction(1));
                             dispatch(changeSpecies(e.target.value));
                         }}
-                        select
-                        label="Species"
                     >
                         {speciesList.map(({ label, value, key }) => (
                             <MenuItem key={key} value={value}>
@@ -218,6 +220,7 @@ export default function ByCharacters() {
                         value={searchName}
                         onKeyDown={() => setTyping(true)}
                         onKeyUp={() => setTyping(false)}
+                        data-testid="search-name"
                         onChange={(e) => {
                             dispatch(pageChangeAction(1));
                             dispatch(searchNameAction(e.target.value));
@@ -232,14 +235,13 @@ export default function ByCharacters() {
                         width="100%"
                         height="100%"
                     >
-                        <Button
+                        <ResetBtn
                             startIcon={<RepeatIcon />}
                             onClick={clearFilterHanlder}
                             variant="contained"
-                            style={{ color: '#fff' }}
                         >
                             Reset
-                        </Button>
+                        </ResetBtn>
                     </Box>
                 </Grid>
                 {!loadingState && characters.length === 0 && (

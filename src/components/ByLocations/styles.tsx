@@ -7,3 +7,7 @@ export const Text = styled(Typography)(({ theme }) => ({
     fontWeight: 'bold',
     color: theme.palette.grey['500'],
 }));
+
+export const Span = styled('span')(({ theme }) => ({
+    color: theme.palette.common.black,
+}));

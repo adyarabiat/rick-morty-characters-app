@@ -1,5 +1,4 @@
 import { styled } from '@mui/material/styles';
-import { default as PaginationSection } from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
 export const StackContainer = styled(Stack)(() => ({
@@ -15,7 +14,4 @@ export const StackContainer = styled(Stack)(() => ({
             fontSize: 17,
         },
     },
-}));
-export const PaginationStyle = styled(PaginationSection)(() => ({
-    // color: '#fff',
 }));

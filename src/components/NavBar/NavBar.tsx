@@ -1,7 +1,5 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { changeGetBy } from '../../redux/Actions';
-
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
@@ -12,13 +10,11 @@ import {
     changeSpecies,
     searchNameAction,
     pageChangeAction,
-    changeInitialRender,
     getCharactersAction,
     getChoosenEpisode,
-    getListOfEpisodes,
     getChoosenLocation,
-    getListOfLocations,
-} from '../../redux/Actions';
+    changeGetBy,
+} from '../../redux/Actions/Actions';
 
 export default function NavBar() {
     const dispatch = useDispatch();
@@ -35,10 +31,7 @@ export default function NavBar() {
         dispatch(pageChangeAction(1));
         dispatch(getCharactersAction([]));
         dispatch(getChoosenEpisode({ name: '', id: '' }));
-        dispatch(getListOfEpisodes([]));
         dispatch(getChoosenLocation({ name: '', id: '' }));
-        dispatch(getListOfLocations([]));
-        dispatch(changeInitialRender(false));
     };
 
     const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -53,9 +46,21 @@ export default function NavBar() {
             justifyContent="center"
         >
             <Tabs variant="scrollable" value={getBy} onChange={handleChange}>
-                <Tab value="characters" label="Characters" />
-                <Tab value="episodes" label="Episodes" />
-                <Tab value="location" label="Location" />
+                <Tab
+                    value="characters"
+                    label="Characters"
+                    data-testid="nav-characters"
+                />
+                <Tab
+                    value="episodes"
+                    label="Episodes"
+                    data-testid="nav-episodes"
+                />
+                <Tab
+                    value="location"
+                    label="Location"
+                    data-testid="nav-location"
+                />
             </Tabs>
         </Box>
     );

@@ -1,17 +1,10 @@
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-    Box,
-    Grid,
-    Typography,
-    CardContent,
-    CardHeader,
-    Avatar,
-} from '@mui/material';
+import { Box, Grid, Typography, CardContent, Avatar } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import { Badge, BackBtn, CardContainer } from './styles';
-import { MainStateType } from '../../redux';
 import { common } from '@mui/material/colors';
+import { Badge, BackBtn, CardContainer, CardHeaderCustom } from './styles';
+import { MainStateType } from '../../redux';
 import theme from '../../theme';
 
 export default function CharacterCard() {
@@ -22,6 +15,7 @@ export default function CharacterCard() {
         MainStateType['characters']['character']
     >(({ characters }) => characters.character);
     const {
+        id,
         image,
         name,
         gender,
@@ -70,6 +64,7 @@ export default function CharacterCard() {
                 alignItems="center"
                 width="100%"
                 marginTop={10}
+                data-testid={`character-card-${id}`}
             >
                 <Box
                     margin="auto"
@@ -92,11 +87,7 @@ export default function CharacterCard() {
                             Current Status {status}
                         </Typography>
                     </Badge>
-                    <CardHeader
-                        style={{
-                            color: common.white,
-                            borderBottom: '1px solid #010',
-                        }}
+                    <CardHeaderCustom
                         avatar={
                             <Avatar
                                 src={image}

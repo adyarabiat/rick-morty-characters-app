@@ -1,33 +1,22 @@
-import { ACTION_TYPES } from './ActionTypes';
+import { ACTION_TYPES } from '../ActionTypes';
+import {
+    errorType,
+    ChoosenEpisodeType,
+    ChoosenLocationType,
+    ListOfEpisodes,
+    ListOfLocations,
+    PaginationInfo,
+    Characters,
+    Character,
+} from './types';
 
-export const changeInitialRender = (value: boolean) => {
-    return {
-        type: ACTION_TYPES.INITIAL_RENDER,
-        payload: value,
-    };
-};
 export const loadingAction = (loading: boolean) => {
     return {
         type: ACTION_TYPES.LOADING,
         payload: loading,
     };
 };
-export const openDialog = (open: boolean) => {
-    return {
-        type: ACTION_TYPES.DIALOG_OPEN,
-        payload: open,
-    };
-};
-export const fitlered = (fitlered: boolean) => {
-    return {
-        type: ACTION_TYPES.FILTERED,
-        payload: fitlered,
-    };
-};
-type errorType = {
-    error: boolean;
-    message: any;
-};
+
 export const errorAction = (error: errorType) => {
     return {
         type: ACTION_TYPES.ERROR,
@@ -46,40 +35,28 @@ export const getLocationCount = (count: number) => {
         payload: count,
     };
 };
-type ChoosenEpisodeType = {
-    name: string;
-    id: string;
-};
+
 export const getChoosenEpisode = (episode: ChoosenEpisodeType) => {
     return {
         type: ACTION_TYPES.CHOOSEN_EPISODE,
         payload: episode,
     };
 };
-type ChoosenLocationType = {
-    name: string;
-    id: string;
-};
+
 export const getChoosenLocation = (location: ChoosenLocationType) => {
     return {
         type: ACTION_TYPES.CHOOSEN_LOCATION,
         payload: location,
     };
 };
-type ListOfEpisodes = {
-    id: string;
-    name: string;
-}[];
+
 export const getListOfEpisodes = (list: ListOfEpisodes) => {
     return {
         type: ACTION_TYPES.LIST_OF_EPISODES,
         payload: list,
     };
 };
-type ListOfLocations = {
-    id: string;
-    name: string;
-}[];
+
 export const getListOfLocations = (list: ListOfLocations) => {
     return {
         type: ACTION_TYPES.LIST_OF_LOCATIONS,
@@ -87,14 +64,6 @@ export const getListOfLocations = (list: ListOfLocations) => {
     };
 };
 
-type Characters = {
-    id: string;
-    status: string;
-    image: string;
-    name: string;
-    species: string;
-    gender: string;
-}[];
 export const getCharactersAction = (data: Characters) => {
     return {
         type: ACTION_TYPES.GET_CHARACTERS,
@@ -102,25 +71,6 @@ export const getCharactersAction = (data: Characters) => {
     };
 };
 
-type Character = {
-    image: string;
-    name: string;
-    gender: string;
-    created: string;
-    species: string;
-    location: {
-        name: string;
-    };
-    status: string;
-    type: string;
-    origin: {
-        name: string;
-    };
-    episode: {
-        episode: string;
-        name: string;
-    }[];
-};
 export const getCharacterAction = (data: Character) => {
     return {
         type: ACTION_TYPES.GET_CHARACTER,
@@ -165,11 +115,6 @@ export const pageChangeAction = (page: number) => {
     };
 };
 
-type PaginationInfo = {
-    page: number;
-    pages: number;
-    count: number;
-};
 export const getPageInfoAction = (info: PaginationInfo) => {
     return {
         type: ACTION_TYPES.PAGES_INFO,

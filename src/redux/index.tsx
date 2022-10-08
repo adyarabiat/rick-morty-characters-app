@@ -8,13 +8,44 @@ declare global {
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(MainReducer, composeEnhancers());
-
 export type MainStateType = {
     characters: {
+        pageInfo: {
+            page: number;
+            pages: number;
+            count: number;
+        };
         getBy: string;
         loadingState: boolean;
-        dialogOpen: boolean;
-        filtered: boolean;
+        errorState: {
+            error: boolean;
+            message: any;
+        };
+        characters: {
+            id: string;
+            status: string;
+            image: string;
+            name: string;
+            species: string;
+            gender: string;
+        }[];
+        character: {
+            id: string;
+            image: string;
+            name: string;
+            gender: string;
+            created: string;
+            species: string;
+            location: {
+                name: string;
+            };
+            status: string;
+            type: string;
+            origin: {
+                name: string;
+            };
+        };
+        searchName: string;
         status: string;
         species: string;
         gender: string;
@@ -35,44 +66,6 @@ export type MainStateType = {
         choosenLocation: {
             name: string;
             id: string;
-        };
-        pageInfo: {
-            page: number;
-            pages: number;
-            count: number;
-        };
-        characters: {
-            id: string;
-            status: string;
-            image: string;
-            name: string;
-            species: string;
-            gender: string;
-        }[];
-        character: {
-            image: string;
-            name: string;
-            gender: string;
-            created: string;
-            species: string;
-            location: {
-                name: string;
-            };
-            status: string;
-            type: string;
-            origin: {
-                name: string;
-            };
-            episode: {
-                episode: string;
-                name: string;
-            }[];
-        };
-        searchName: string;
-        initialRender: boolean;
-        errorState: {
-            error: boolean;
-            message: any;
         };
     };
 };

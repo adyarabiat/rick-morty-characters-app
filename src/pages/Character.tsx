@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { LOAD_CHARACTER } from '../graphql/Queries';
-import Error from '../components/Error/Error';
-import { getCharacterAction } from '../redux/Actions';
-import CharacterCard from '../components/CharacterCard';
-import { loadingAction, errorAction } from '../redux/Actions';
-import Spinner from '../components/Spinner';
 import { Typography, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { getCharacterQuery } from '../graphql/Queries';
+import Error from '../components/Error/Error';
+import { getCharacterAction } from '../redux/Actions/Actions';
+import CharacterCard from '../components/CharacterCard';
+import { loadingAction, errorAction } from '../redux/Actions/Actions';
+import Spinner from '../components/Spinner';
 
 export const Text = styled(Typography)(({ theme }) => ({
     width: '100%',
@@ -39,7 +39,7 @@ export default function Character() {
     };
     const { id } = useParams<keyof MyParams>() as MyParams;
 
-    const { data, error, loading } = useQuery(LOAD_CHARACTER, {
+    const { data, error, loading } = useQuery(getCharacterQuery, {
         variables: {
             id,
         },

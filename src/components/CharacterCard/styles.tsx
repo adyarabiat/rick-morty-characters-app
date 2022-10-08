@@ -1,5 +1,5 @@
 import { styled } from '@mui/material/styles';
-import { Button, Card, CardActions } from '@mui/material';
+import { Button, Card, CardActions, CardHeader } from '@mui/material';
 
 type BackgroundColorProp = {
     backgroundColor: string;
@@ -13,6 +13,10 @@ export const CardContainer = styled(Card)(({ theme }) => ({
     marginTop: 10,
     marginLeft: 5,
     marginRight: 5,
+}));
+export const CardHeaderCustom = styled(CardHeader)(({ theme }) => ({
+    borderBottom: `1px solid ${theme.palette.common.white}`,
+    color: theme.palette.common.white,
 }));
 export const CardActionsContainer = styled(CardActions)(({ theme }) => ({
     cursor: 'pointer',

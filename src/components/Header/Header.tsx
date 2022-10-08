@@ -1,7 +1,7 @@
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
+import { Text, Span } from './styles';
 
 export default function Header() {
     return (
@@ -15,26 +15,10 @@ export default function Header() {
                         justifyContent="center"
                         textAlign="center"
                     >
-                        <Typography color="#fff" variant="h6" noWrap>
-                            <span
-                                style={{
-                                    color: '#12243c',
-                                    fontSize: 30,
-                                }}
-                            >
-                                Rick{' '}
-                            </span>
-                            And{' '}
-                            <span
-                                style={{
-                                    color: '#12243c',
-                                    fontSize: 30,
-                                }}
-                            >
-                                Morty
-                            </span>{' '}
-                            Charcters
-                        </Typography>
+                        <Text variant="h6" noWrap>
+                            <Span>Rick </Span>
+                            And <Span>Morty</Span> Charcters
+                        </Text>
                     </Box>
                 </Toolbar>
             </AppBar>

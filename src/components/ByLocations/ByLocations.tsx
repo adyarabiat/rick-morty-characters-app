@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useLazyQuery, useQuery } from '@apollo/client';
+import { useLazyQuery } from '@apollo/client';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -8,12 +8,12 @@ import Grid from '@mui/material/Grid';
 import { MainStateType } from '../../redux';
 import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
-import { Text } from './styles';
+import { Text, Span } from './styles';
 import { numberToArr } from '../../helpers/numbertoArr';
 import {
-    GET_LOCATIONS_COUNT,
-    GET_LOCATIONS_LIST,
-    GET_LOCATIONS_CHARACTERS,
+    getLocationsCountQuery,
+    getLocationsListQuery,
+    getLocationCharactersQuery,
 } from '../../graphql/Queries';
 import {
     getCharactersAction,
@@ -22,7 +22,7 @@ import {
     getChoosenLocation,
     errorAction,
     loadingAction,
-} from '../../redux/Actions';
+} from '../../redux/Actions/Actions';
 import PrograssCircular from '../PrograssCircular/PrograssCircular';
 
 export default function ByLocations() {
@@ -37,24 +37,22 @@ export default function ByLocations() {
         ({ characters }) => characters
     );
 
-    const {
-        data: locationsCountData,
-        error: errorLocationCounts,
-        loading: loadingLocationCounts,
-    } = useQuery(GET_LOCATIONS_COUNT, {
-        errorPolicy: 'all',
-    });
-
+    const [
+        getLocationsCounts,
+        {
+            data: locationsCountData,
+            error: errorLocationCounts,
+            loading: loadingLocationCounts,
+        },
+    ] = useLazyQuery(getLocationsCountQuery);
     const [
         getLocationsList,
         {
             data: LocationsList,
             loading: loadingLocationsList,
             error: errorLocationsList,
-            called: calledLocationsList,
         },
-    ] = useLazyQuery(GET_LOCATIONS_LIST);
-
+    ] = useLazyQuery(getLocationsListQuery);
     const [
         getLocationCharacters,
         {
@@ -62,7 +60,48 @@ export default function ByLocations() {
             loading: loadingLocationCharacters,
             error: errorLocationCharacters,
         },
-    ] = useLazyQuery(GET_LOCATIONS_CHARACTERS);
+    ] = useLazyQuery(getLocationCharactersQuery);
+
+    useEffect(() => {
+        getLocationsCounts({
+            variables: {},
+            errorPolicy: 'all',
+        });
+        if (locationsCountData) {
+            let count = locationsCountData?.locations?.info?.count;
+            dispatch(getLocationCount(count));
+        }
+    }, [dispatch, locationsCountData, getLocationsCounts]);
+
+    useEffect(() => {
+        if (locationsCount && locationsCount !== 0) {
+            getLocationsList({
+                variables: {
+                    ids: numberToArr(locationsCount),
+                },
+                errorPolicy: 'all',
+            });
+            if (LocationsList) {
+                let locations = LocationsList?.locationsByIds;
+                dispatch(getListOfLocations(locations));
+            }
+        }
+    }, [dispatch, getLocationsList, LocationsList, locationsCount]);
+
+    useEffect(() => {
+        if (choosenLocation.id !== '' && choosenLocation.name !== '') {
+            getLocationCharacters({
+                variables: {
+                    id: choosenLocation.id,
+                },
+                errorPolicy: 'all',
+            });
+            if (charactersList) {
+                let residents = charactersList?.location?.residents;
+                dispatch(getCharactersAction(residents));
+            }
+        }
+    }, [dispatch, getLocationCharacters, charactersList, choosenLocation]);
 
     useEffect(() => {
         if (loadingLocationCharacters) dispatch(loadingAction(true));
@@ -83,7 +122,11 @@ export default function ByLocations() {
                 })
             );
         }
-        if (!errorLocationsList || !errorLocationCharacters)
+        if (
+            !errorLocationsList &&
+            !errorLocationCharacters &&
+            !errorLocationCounts
+        )
             dispatch(
                 errorAction({
                     error: false,
@@ -98,51 +141,13 @@ export default function ByLocations() {
         dispatch,
     ]);
 
-    useEffect(() => {
-        if (locationsCountData) {
-            let count = locationsCountData?.locations?.info?.count;
-            dispatch(getLocationCount(count));
-        }
-    }, [dispatch, locationsCountData]);
-
-    useEffect(() => {
-        if (locationsCount !== 0 || !calledLocationsList) {
-            getLocationsList({
-                variables: {
-                    ids: numberToArr(locationsCount),
-                },
-                errorPolicy: 'all',
-            });
-            if (LocationsList) {
-                let locations = LocationsList?.locationsByIds;
-                dispatch(getListOfLocations(locations));
-            }
-        }
-    }, [
-        dispatch,
-        getLocationsList,
-        LocationsList,
-        locationsCount,
-        calledLocationsList,
-    ]);
-
-    useEffect(() => {
-        if (choosenLocation.id !== '' && choosenLocation.name !== '') {
-            getLocationCharacters({
-                variables: {
-                    id: choosenLocation.id,
-                },
-                errorPolicy: 'all',
-            });
-            if (charactersList) {
-                let residents = charactersList?.location?.residents;
-                dispatch(getCharactersAction(residents));
-            }
-        }
-    }, [dispatch, getLocationCharacters, charactersList, choosenLocation]);
-
     return (
-        <Box width="100%" maxWidth="600px" marginBottom={3}>
+        <Box
+            width="100%"
+            maxWidth="600px"
+            marginBottom={3}
+            data-testid="by-location"
+        >
             <Grid container spacing={2} marginBottom={3}>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                     <TextField
@@ -195,13 +200,7 @@ export default function ByLocations() {
                         {choosenLocation.name !== '' &&
                         choosenLocation.id !== '' ? (
                             <Typography variant="h4" color="primary">
-                                <span
-                                    style={{
-                                        color: '#010101',
-                                    }}
-                                >
-                                    Location {choosenLocation?.id}:
-                                </span>{' '}
+                                <Span>Location {choosenLocation?.id}:</Span>{' '}
                                 {choosenLocation?.name}
                             </Typography>
                         ) : (

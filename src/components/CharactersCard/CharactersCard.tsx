@@ -5,7 +5,6 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-
 import { CardContainer, Badge } from './styles';
 import { MainStateType } from '../../redux';
 
@@ -23,7 +22,15 @@ export default function CharactersCard() {
     return (
         <>
             {characters?.map((character) => (
-                <Grid item xs={12} sm={6} md={4} lg={3} key={character?.id}>
+                <Grid
+                    item
+                    xs={12}
+                    sm={6}
+                    md={4}
+                    lg={3}
+                    key={character?.id}
+                    data-testid={`characters-card-${character?.id}`}
+                >
                     <Box
                         width="100%"
                         display="flex"
@@ -35,21 +42,24 @@ export default function CharactersCard() {
                             onClick={() => onClickCharacter(character?.id)}
                         >
                             <div style={{ position: 'relative' }}>
-                                <Badge backgroundColor={character?.status}>
+                                <Badge
+                                    backgroundColor={character?.status}
+                                    data-testid={`character-feature-status${character?.id}`}
+                                >
                                     {character?.status}
                                 </Badge>
                                 <CardMedia
                                     component="img"
                                     height={250}
                                     image={character?.image}
-                                    alt="profile-image"
+                                    alt={`profile-image${character?.id}`}
                                 />
                                 <CardContent>
                                     <Typography
                                         gutterBottom
                                         variant="h6"
                                         component="div"
-                                        data-testid="character-feature-name"
+                                        data-testid={`character-feature-name${character?.id}`}
                                     >
                                         {character?.name}
                                     </Typography>
@@ -69,6 +79,7 @@ export default function CharactersCard() {
                                                 gutterBottom
                                                 variant="subtitle1"
                                                 component="div"
+                                                data-testid={`character-feature-gender${character?.id}`}
                                             >
                                                 {character?.gender || '-'}
                                             </Typography>
@@ -85,6 +96,7 @@ export default function CharactersCard() {
                                                 gutterBottom
                                                 variant="subtitle1"
                                                 component="div"
+                                                data-testid={`character-feature-species${character?.id}`}
                                             >
                                                 {character?.species}
                                             </Typography>

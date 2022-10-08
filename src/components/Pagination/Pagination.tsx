@@ -1,9 +1,10 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { pageChangeAction } from '../../redux/Actions';
+import { pageChangeAction } from '../../redux/Actions/Actions';
 import { Grid } from '@mui/material';
 import { MainStateType } from '../../redux';
-import { StackContainer, PaginationStyle } from './styles';
+import { default as PaginationSection } from '@mui/material/Pagination';
+import { StackContainer } from './styles';
 
 export default function Pagination() {
     const dispatch = useDispatch();
@@ -21,7 +22,7 @@ export default function Pagination() {
         <Grid item xs={12} sm={12} md={12} lg={12}>
             {getBy === 'characters' && characters.length !== 0 && (
                 <StackContainer spacing={6}>
-                    <PaginationStyle
+                    <PaginationSection
                         count={pageInfo.pages || 0}
                         variant="outlined"
                         page={pageInfo.page || 0}
