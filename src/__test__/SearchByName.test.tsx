@@ -15,7 +15,7 @@ afterAll(() => server.close());
 
 window.scrollTo = jest.fn();
 
-test('fetches characters by their names', async () => {
+test('Render characters by their names', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -31,7 +31,7 @@ test('fetches characters by their names', async () => {
     expect(await screen.findByText(/Albert Einstein/)).toBeInTheDocument();
 });
 
-test('fetches characters by part of their names', async () => {
+test('Render characters by part of their names', async () => {
     render(
         <MemoryRouter>
             <Characters />

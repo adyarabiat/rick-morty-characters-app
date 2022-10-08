@@ -14,7 +14,7 @@ afterAll(() => server.close());
 
 window.scrollTo = jest.fn();
 
-test('fetches & receives a characters whose gender is "Female"', async () => {
+test('Render characters whose gender is "Female"', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -36,7 +36,7 @@ test('fetches & receives a characters whose gender is "Female"', async () => {
     ]);
 });
 
-test('fetches & receives a characters whose gender is "Male"', async () => {
+test('Render characters whose gender is "Male"', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -58,7 +58,7 @@ test('fetches & receives a characters whose gender is "Male"', async () => {
     ]);
 });
 
-test('fetches & receives a characters whose gender is "Genderless"', async () => {
+test('Render characters whose gender is "Genderless"', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -80,7 +80,7 @@ test('fetches & receives a characters whose gender is "Genderless"', async () =>
     ]);
 });
 
-test('fetches & receives a characters whose gender is "Unknown"', async () => {
+test('Render characters whose gender is "Unknown"', async () => {
     render(
         <MemoryRouter>
             <Characters />

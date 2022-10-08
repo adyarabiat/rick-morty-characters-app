@@ -14,7 +14,7 @@ afterAll(() => server.close());
 
 window.scrollTo = jest.fn();
 
-test('when select Characters from the nav bar to render byCharacters component', async () => {
+test('when select Characters from the nav bar to render "byCharacters" component', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -29,7 +29,7 @@ test('when select Characters from the nav bar to render byCharacters component',
     expect(screen.queryByTestId('by-location')).not.toBeInTheDocument();
 });
 
-test('when select Episodes from the nav bar to render byEpisodes component', async () => {
+test('when select Episodes from the nav bar to render "byEpisodes" component', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -44,7 +44,7 @@ test('when select Episodes from the nav bar to render byEpisodes component', asy
     expect(screen.queryByTestId('by-location')).not.toBeInTheDocument();
 });
 
-test('when select Location from the nav bar to render byLocation component', async () => {
+test('when select Location from the nav bar to render "byLocation" component', async () => {
     render(
         <MemoryRouter>
             <Characters />

@@ -14,7 +14,7 @@ afterAll(() => server.close());
 
 window.scrollTo = jest.fn();
 
-test('fetches & receives a characters whose current status "Alive"', async () => {
+test('Render characters whose current status "Alive"', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -35,7 +35,7 @@ test('fetches & receives a characters whose current status "Alive"', async () =>
     ]);
 });
 
-test('fetches & receives a characters whose current status "Dead"', async () => {
+test('Render characters whose current status "Dead"', async () => {
     render(
         <MemoryRouter>
             <Characters />
@@ -56,7 +56,7 @@ test('fetches & receives a characters whose current status "Dead"', async () => 
     ]);
 });
 
-test('fetches & receives a characters whose current status "Unknown"', async () => {
+test('Render characters whose current status "Unknown"', async () => {
     render(
         <MemoryRouter>
             <Characters />

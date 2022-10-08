@@ -25,7 +25,7 @@ const fisrtCharacterData = {
     __typename: 'Character',
 };
 
-test('fetches & receives a characters after we land our default route => /characters', async () => {
+test('Render characters after we land on our default route => /characters', async () => {
     render(
         <MemoryRouter>
             <Characters />
